@@ -17,35 +17,34 @@ import java.util.function.Supplier;
 @Mixin(Difficulty.class)
 public class DifficultyMixin {
 
-    // We use the Intermediary names in the shadow string to ensure they are found
-    // even if the environment's remapper is struggling.
+    // Using Yarn names + Aliases ensures the Mixin finds the field
+    // regardless of whether the RefMap or Remapper is working.
     @Shadow(aliases = {"field_5804"}) @Final @Mutable
-    private static Difficulty[] field_5804; // $VALUES
+    private static Difficulty[] field_5804;
 
     @Shadow(aliases = {"field_41668"}) @Final @Mutable
-    private static Codec<Difficulty> field_41668; // CODEC
+    private static Codec<Difficulty> field_41668;
 
     @Shadow(aliases = {"field_5800"}) @Final @Mutable
-    private static IntFunction<Difficulty> field_5800; // BY_ID
+    private static IntFunction<Difficulty> field_5800;
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void addCustomDifficulties(CallbackInfo ci) {
-        System.out.println("[Renovatio] Executing Compatibility-First Injection...");
+        System.out.println("[Renovatio] Executing Ultra-Stable Injection...");
 
         try {
             Difficulty tranquil = DifficultyInvoker.create("TRANQUIL", -1, 4, "tranquil");
             Difficulty brutal = DifficultyInvoker.create("BRUTAL", -1, 5, "brutal");
             Difficulty nightmare = DifficultyInvoker.create("NIGHTMARE", -1, 6, "nightmare");
 
-            Difficulty[] vanilla = field_5804;
+            Difficulty[] v = field_5804;
             final Difficulty[] newValues = new Difficulty[] {
-                    vanilla[0], tranquil, vanilla[1], vanilla[2], vanilla[3], brutal, nightmare
+                    v[0], tranquil, v[1], v[2], v[3], brutal, nightmare
             };
 
-            // Update the values array
             field_5804 = newValues;
 
-            // Use Anonymous Inner Classes to avoid BootstrapMethodErrors (Lambdas)
+            // Using an Anonymous Inner Class instead of a Lambda (->) to prevent Bootstrap Errors
             field_5800 = new IntFunction<Difficulty>() {
                 @Override
                 public Difficulty apply(int id) {
@@ -56,7 +55,7 @@ public class DifficultyMixin {
                 }
             };
 
-            // Rebuild the Codec
+            // Rebuilding the Codec using a Supplier class to avoid Method References (::)
             field_41668 = StringIdentifiable.createCodec(new Supplier<Difficulty[]>() {
                 @Override
                 public Difficulty[] get() {
@@ -64,9 +63,8 @@ public class DifficultyMixin {
                 }
             });
 
-            System.out.println("[Renovatio] Difficulty Engine Surgery Successful.");
+            System.out.println("[Renovatio] Difficulty Surgery Successful.");
         } catch (Throwable t) {
-            System.err.println("[Renovatio] CRITICAL INJECTION FAILURE:");
             t.printStackTrace();
         }
     }
