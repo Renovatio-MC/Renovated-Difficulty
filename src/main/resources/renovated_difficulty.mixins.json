@@ -13,9 +13,14 @@
     "SpawnHelperContextMixin",
     "SpawnHelperInfoCapMixin",
     "SpawnDensityCapperDensityCapMixin",
+    "RaidBossBarWaveTextMixin",
+    "RaidMemberAccessor",
+    "RaidWaveCountMixin",
+    "RaidWaveTableClampMixin",
     "HostileEntityNeutralStateMixin",
     "MobEntityNeutralTargetMixin",
-    "LivingEntityNeutralAggroMixin"
+    "LivingEntityNeutralAggroMixin",
+    "ZombieLeaderSpawnMixin"
   ],
   "injectors": {
     "defaultRequire": 1

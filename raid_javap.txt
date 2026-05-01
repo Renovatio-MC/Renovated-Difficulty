@@ -1,0 +1,2307 @@
+Compiled from "Raid.java"
+public class net.minecraft.village.raid.Raid {
+  public static final net.minecraft.entity.SpawnLocation RAVAGER_SPAWN_LOCATION;
+
+  public static final com.mojang.serialization.MapCodec<net.minecraft.village.raid.Raid> CODEC;
+
+  private static final int field_53977;
+
+  private static final int field_30676;
+
+  private static final int field_30680;
+
+  private static final int field_30681;
+
+  private static final int field_30682;
+
+  private static final net.minecraft.text.Text OMINOUS_BANNER_TRANSLATION_KEY;
+
+  private static final java.lang.String RAIDERS_REMAINING_TRANSLATION_KEY;
+
+  public static final int field_30669;
+
+  private static final int field_30685;
+
+  private static final int DEFAULT_PRE_RAID_TICKS;
+
+  public static final int MAX_DESPAWN_COUNTER;
+
+  public static final int field_30671;
+
+  private static final int field_30687;
+
+  public static final int field_30672;
+
+  public static final int field_30673;
+
+  private static final int field_30688;
+
+  private static final net.minecraft.text.Text EVENT_TEXT;
+
+  private static final net.minecraft.text.Text VICTORY_TITLE;
+
+  private static final net.minecraft.text.Text DEFEAT_TITLE;
+
+  private static final int MAX_ACTIVE_TICKS;
+
+  private static final int field_53978;
+
+  public static final int field_30674;
+
+  public static final int SQUARED_MAX_RAIDER_DISTANCE;
+
+  private final java.util.Map<java.lang.Integer, net.minecraft.entity.raid.RaiderEntity> waveToCaptain;
+
+  private final java.util.Map<java.lang.Integer, java.util.Set<net.minecraft.entity.raid.RaiderEntity>> waveToRaiders;
+
+  private final java.util.Set<java.util.UUID> heroesOfTheVillage;
+
+  private long ticksActive;
+
+  private net.minecraft.util.math.BlockPos center;
+
+  private boolean started;
+
+  private float totalHealth;
+
+  private int raidOmenLevel;
+
+  private boolean active;
+
+  private int wavesSpawned;
+
+  private final net.minecraft.entity.boss.ServerBossBar bar;
+
+  private int postRaidTicks;
+
+  private int preRaidTicks;
+
+  private final net.minecraft.util.math.random.Random random;
+
+  private final int waveCount;
+
+  private net.minecraft.village.raid.Raid$Status status;
+
+  private int finishCooldown;
+
+  private java.util.Optional<net.minecraft.util.math.BlockPos> preCalculatedRaidersSpawnLocation;
+
+  public net.minecraft.village.raid.Raid(net.minecraft.util.math.BlockPos, net.minecraft.world.Difficulty);
+    Code:
+       0: aload_0
+       1: invokespecial #142                // Method java/lang/Object."<init>":()V
+       4: aload_0
+       5: invokestatic  #148                // Method com/google/common/collect/Maps.newHashMap:()Ljava/util/HashMap;
+       8: putfield      #150                // Field waveToCaptain:Ljava/util/Map;
+      11: aload_0
+      12: invokestatic  #148                // Method com/google/common/collect/Maps.newHashMap:()Ljava/util/HashMap;
+      15: putfield      #152                // Field waveToRaiders:Ljava/util/Map;
+      18: aload_0
+      19: invokestatic  #158                // Method com/google/common/collect/Sets.newHashSet:()Ljava/util/HashSet;
+      22: putfield      #160                // Field heroesOfTheVillage:Ljava/util/Set;
+      25: aload_0
+      26: new           #162                // class net/minecraft/entity/boss/ServerBossBar
+      29: dup
+      30: getstatic     #164                // Field EVENT_TEXT:Lnet/minecraft/text/Text;
+      33: getstatic     #168                // Field net/minecraft/entity/boss/BossBar$Color.RED:Lnet/minecraft/entity/boss/BossBar$Color;
+      36: getstatic     #172                // Field net/minecraft/entity/boss/BossBar$Style.NOTCHED_10:Lnet/minecraft/entity/boss/BossBar$Style;
+      39: invokespecial #175                // Method net/minecraft/entity/boss/ServerBossBar."<init>":(Lnet/minecraft/text/Text;Lnet/minecraft/entity/boss/BossBar$Color;Lnet/minecraft/entity/boss/BossBar$Style;)V
+      42: putfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+      45: aload_0
+      46: invokestatic  #183                // InterfaceMethod net/minecraft/util/math/random/Random.create:()Lnet/minecraft/util/math/random/Random;
+      49: putfield      #185                // Field random:Lnet/minecraft/util/math/random/Random;
+      52: aload_0
+      53: invokestatic  #191                // Method java/util/Optional.empty:()Ljava/util/Optional;
+      56: putfield      #193                // Field preCalculatedRaidersSpawnLocation:Ljava/util/Optional;
+      59: aload_0
+      60: iconst_1
+      61: putfield      #195                // Field active:Z
+      64: aload_0
+      65: sipush        300
+      68: putfield      #197                // Field preRaidTicks:I
+      71: aload_0
+      72: getfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+      75: fconst_0
+      76: invokevirtual #201                // Method net/minecraft/entity/boss/ServerBossBar.setPercent:(F)V
+      79: aload_0
+      80: aload_1
+      81: putfield      #203                // Field center:Lnet/minecraft/util/math/BlockPos;
+      84: aload_0
+      85: aload_0
+      86: aload_2
+      87: invokevirtual #207                // Method getMaxWaves:(Lnet/minecraft/world/Difficulty;)I
+      90: putfield      #209                // Field waveCount:I
+      93: aload_0
+      94: getstatic     #212                // Field net/minecraft/village/raid/Raid$Status.ONGOING:Lnet/minecraft/village/raid/Raid$Status;
+      97: putfield      #214                // Field status:Lnet/minecraft/village/raid/Raid$Status;
+     100: return
+
+  private net.minecraft.village.raid.Raid(boolean, boolean, long, int, int, int, int, float, int, net.minecraft.village.raid.Raid$Status, net.minecraft.util.math.BlockPos, java.util.Set<java.util.UUID>);
+    Code:
+       0: aload_0
+       1: invokespecial #142                // Method java/lang/Object."<init>":()V
+       4: aload_0
+       5: invokestatic  #148                // Method com/google/common/collect/Maps.newHashMap:()Ljava/util/HashMap;
+       8: putfield      #150                // Field waveToCaptain:Ljava/util/Map;
+      11: aload_0
+      12: invokestatic  #148                // Method com/google/common/collect/Maps.newHashMap:()Ljava/util/HashMap;
+      15: putfield      #152                // Field waveToRaiders:Ljava/util/Map;
+      18: aload_0
+      19: invokestatic  #158                // Method com/google/common/collect/Sets.newHashSet:()Ljava/util/HashSet;
+      22: putfield      #160                // Field heroesOfTheVillage:Ljava/util/Set;
+      25: aload_0
+      26: new           #162                // class net/minecraft/entity/boss/ServerBossBar
+      29: dup
+      30: getstatic     #164                // Field EVENT_TEXT:Lnet/minecraft/text/Text;
+      33: getstatic     #168                // Field net/minecraft/entity/boss/BossBar$Color.RED:Lnet/minecraft/entity/boss/BossBar$Color;
+      36: getstatic     #172                // Field net/minecraft/entity/boss/BossBar$Style.NOTCHED_10:Lnet/minecraft/entity/boss/BossBar$Style;
+      39: invokespecial #175                // Method net/minecraft/entity/boss/ServerBossBar."<init>":(Lnet/minecraft/text/Text;Lnet/minecraft/entity/boss/BossBar$Color;Lnet/minecraft/entity/boss/BossBar$Style;)V
+      42: putfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+      45: aload_0
+      46: invokestatic  #183                // InterfaceMethod net/minecraft/util/math/random/Random.create:()Lnet/minecraft/util/math/random/Random;
+      49: putfield      #185                // Field random:Lnet/minecraft/util/math/random/Random;
+      52: aload_0
+      53: invokestatic  #191                // Method java/util/Optional.empty:()Ljava/util/Optional;
+      56: putfield      #193                // Field preCalculatedRaidersSpawnLocation:Ljava/util/Optional;
+      59: aload_0
+      60: iload_1
+      61: putfield      #221                // Field started:Z
+      64: aload_0
+      65: iload_2
+      66: putfield      #195                // Field active:Z
+      69: aload_0
+      70: lload_3
+      71: putfield      #223                // Field ticksActive:J
+      74: aload_0
+      75: iload         5
+      77: putfield      #225                // Field raidOmenLevel:I
+      80: aload_0
+      81: iload         6
+      83: putfield      #227                // Field wavesSpawned:I
+      86: aload_0
+      87: iload         7
+      89: putfield      #197                // Field preRaidTicks:I
+      92: aload_0
+      93: iload         8
+      95: putfield      #229                // Field postRaidTicks:I
+      98: aload_0
+      99: fload         9
+     101: putfield      #231                // Field totalHealth:F
+     104: aload_0
+     105: aload         12
+     107: putfield      #203                // Field center:Lnet/minecraft/util/math/BlockPos;
+     110: aload_0
+     111: iload         10
+     113: putfield      #209                // Field waveCount:I
+     116: aload_0
+     117: aload         11
+     119: putfield      #214                // Field status:Lnet/minecraft/village/raid/Raid$Status;
+     122: aload_0
+     123: getfield      #160                // Field heroesOfTheVillage:Ljava/util/Set;
+     126: aload         13
+     128: invokeinterface #237,  2          // InterfaceMethod java/util/Set.addAll:(Ljava/util/Collection;)Z
+     133: pop
+     134: return
+
+  public boolean isFinished();
+    Code:
+       0: aload_0
+       1: invokevirtual #242                // Method hasWon:()Z
+       4: ifne          14
+       7: aload_0
+       8: invokevirtual #245                // Method hasLost:()Z
+      11: ifeq          18
+      14: iconst_1
+      15: goto          19
+      18: iconst_0
+      19: ireturn
+
+  public boolean isPreRaid();
+    Code:
+       0: aload_0
+       1: invokevirtual #249                // Method hasSpawned:()Z
+       4: ifeq          25
+       7: aload_0
+       8: invokevirtual #253                // Method getRaiderCount:()I
+      11: ifne          25
+      14: aload_0
+      15: getfield      #197                // Field preRaidTicks:I
+      18: ifle          25
+      21: iconst_1
+      22: goto          26
+      25: iconst_0
+      26: ireturn
+
+  public boolean hasSpawned();
+    Code:
+       0: aload_0
+       1: getfield      #227                // Field wavesSpawned:I
+       4: ifle          11
+       7: iconst_1
+       8: goto          12
+      11: iconst_0
+      12: ireturn
+
+  public boolean hasStopped();
+    Code:
+       0: aload_0
+       1: getfield      #214                // Field status:Lnet/minecraft/village/raid/Raid$Status;
+       4: getstatic     #257                // Field net/minecraft/village/raid/Raid$Status.STOPPED:Lnet/minecraft/village/raid/Raid$Status;
+       7: if_acmpne     14
+      10: iconst_1
+      11: goto          15
+      14: iconst_0
+      15: ireturn
+
+  public boolean hasWon();
+    Code:
+       0: aload_0
+       1: getfield      #214                // Field status:Lnet/minecraft/village/raid/Raid$Status;
+       4: getstatic     #260                // Field net/minecraft/village/raid/Raid$Status.VICTORY:Lnet/minecraft/village/raid/Raid$Status;
+       7: if_acmpne     14
+      10: iconst_1
+      11: goto          15
+      14: iconst_0
+      15: ireturn
+
+  public boolean hasLost();
+    Code:
+       0: aload_0
+       1: getfield      #214                // Field status:Lnet/minecraft/village/raid/Raid$Status;
+       4: getstatic     #263                // Field net/minecraft/village/raid/Raid$Status.LOSS:Lnet/minecraft/village/raid/Raid$Status;
+       7: if_acmpne     14
+      10: iconst_1
+      11: goto          15
+      14: iconst_0
+      15: ireturn
+
+  public float getTotalHealth();
+    Code:
+       0: aload_0
+       1: getfield      #231                // Field totalHealth:F
+       4: freturn
+
+  public java.util.Set<net.minecraft.entity.raid.RaiderEntity> getAllRaiders();
+    Code:
+       0: invokestatic  #158                // Method com/google/common/collect/Sets.newHashSet:()Ljava/util/HashSet;
+       3: astore_1
+       4: aload_0
+       5: getfield      #152                // Field waveToRaiders:Ljava/util/Map;
+       8: invokeinterface #274,  1          // InterfaceMethod java/util/Map.values:()Ljava/util/Collection;
+      13: invokeinterface #280,  1          // InterfaceMethod java/util/Collection.iterator:()Ljava/util/Iterator;
+      18: astore_2
+      19: aload_2
+      20: invokeinterface #287,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      25: ifeq          49
+      28: aload_2
+      29: invokeinterface #291,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      34: checkcast     #233                // class java/util/Set
+      37: astore_3
+      38: aload_1
+      39: aload_3
+      40: invokeinterface #237,  2          // InterfaceMethod java/util/Set.addAll:(Ljava/util/Collection;)Z
+      45: pop
+      46: goto          19
+      49: aload_1
+      50: areturn
+
+  public boolean hasStarted();
+    Code:
+       0: aload_0
+       1: getfield      #221                // Field started:Z
+       4: ireturn
+
+  public int getGroupsSpawned();
+    Code:
+       0: aload_0
+       1: getfield      #227                // Field wavesSpawned:I
+       4: ireturn
+
+  private java.util.function.Predicate<net.minecraft.server.network.ServerPlayerEntity> isInRaidDistance();
+    Code:
+       0: aload_0
+       1: invokedynamic #318,  0            // InvokeDynamic #0:test:(Lnet/minecraft/village/raid/Raid;)Ljava/util/function/Predicate;
+       6: areturn
+
+  private void updateBarToPlayers(net.minecraft.server.world.ServerWorld);
+    Code:
+       0: aload_0
+       1: getfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+       4: invokevirtual #324                // Method net/minecraft/entity/boss/ServerBossBar.getPlayers:()Ljava/util/Collection;
+       7: invokestatic  #327                // Method com/google/common/collect/Sets.newHashSet:(Ljava/lang/Iterable;)Ljava/util/HashSet;
+      10: astore_2
+      11: aload_1
+      12: aload_0
+      13: invokevirtual #329                // Method isInRaidDistance:()Ljava/util/function/Predicate;
+      16: invokevirtual #334                // Method net/minecraft/server/world/ServerWorld.getPlayers:(Ljava/util/function/Predicate;)Ljava/util/List;
+      19: astore_3
+      20: aload_3
+      21: invokeinterface #337,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      26: astore        4
+      28: aload         4
+      30: invokeinterface #287,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      35: ifeq          73
+      38: aload         4
+      40: invokeinterface #291,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      45: checkcast     #339                // class net/minecraft/server/network/ServerPlayerEntity
+      48: astore        5
+      50: aload_2
+      51: aload         5
+      53: invokeinterface #342,  2          // InterfaceMethod java/util/Set.contains:(Ljava/lang/Object;)Z
+      58: ifne          70
+      61: aload_0
+      62: getfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+      65: aload         5
+      67: invokevirtual #346                // Method net/minecraft/entity/boss/ServerBossBar.addPlayer:(Lnet/minecraft/server/network/ServerPlayerEntity;)V
+      70: goto          28
+      73: aload_2
+      74: invokeinterface #347,  1          // InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+      79: astore        4
+      81: aload         4
+      83: invokeinterface #287,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      88: ifeq          126
+      91: aload         4
+      93: invokeinterface #291,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      98: checkcast     #339                // class net/minecraft/server/network/ServerPlayerEntity
+     101: astore        5
+     103: aload_3
+     104: aload         5
+     106: invokeinterface #348,  2          // InterfaceMethod java/util/List.contains:(Ljava/lang/Object;)Z
+     111: ifne          123
+     114: aload_0
+     115: getfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+     118: aload         5
+     120: invokevirtual #351                // Method net/minecraft/entity/boss/ServerBossBar.removePlayer:(Lnet/minecraft/server/network/ServerPlayerEntity;)V
+     123: goto          81
+     126: return
+
+  public int getMaxAcceptableBadOmenLevel();
+    Code:
+       0: iconst_5
+       1: ireturn
+
+  public int getBadOmenLevel();
+    Code:
+       0: aload_0
+       1: getfield      #225                // Field raidOmenLevel:I
+       4: ireturn
+
+  public void setBadOmenLevel(int);
+    Code:
+       0: aload_0
+       1: iload_1
+       2: putfield      #225                // Field raidOmenLevel:I
+       5: return
+
+  public boolean start(net.minecraft.server.network.ServerPlayerEntity);
+    Code:
+       0: aload_1
+       1: getstatic     #371                // Field net/minecraft/entity/effect/StatusEffects.RAID_OMEN:Lnet/minecraft/registry/entry/RegistryEntry;
+       4: invokevirtual #375                // Method net/minecraft/server/network/ServerPlayerEntity.getStatusEffect:(Lnet/minecraft/registry/entry/RegistryEntry;)Lnet/minecraft/entity/effect/StatusEffectInstance;
+       7: astore_2
+       8: aload_2
+       9: ifnonnull     14
+      12: iconst_0
+      13: ireturn
+      14: aload_0
+      15: dup
+      16: getfield      #225                // Field raidOmenLevel:I
+      19: aload_2
+      20: invokevirtual #380                // Method net/minecraft/entity/effect/StatusEffectInstance.getAmplifier:()I
+      23: iconst_1
+      24: iadd
+      25: iadd
+      26: putfield      #225                // Field raidOmenLevel:I
+      29: aload_0
+      30: aload_0
+      31: getfield      #225                // Field raidOmenLevel:I
+      34: iconst_0
+      35: aload_0
+      36: invokevirtual #382                // Method getMaxAcceptableBadOmenLevel:()I
+      39: invokestatic  #388                // Method net/minecraft/util/math/MathHelper.clamp:(III)I
+      42: putfield      #225                // Field raidOmenLevel:I
+      45: aload_0
+      46: invokevirtual #249                // Method hasSpawned:()Z
+      49: ifne          66
+      52: aload_1
+      53: getstatic     #394                // Field net/minecraft/stat/Stats.RAID_TRIGGER:Lnet/minecraft/util/Identifier;
+      56: invokevirtual #398                // Method net/minecraft/server/network/ServerPlayerEntity.incrementStat:(Lnet/minecraft/util/Identifier;)V
+      59: getstatic     #404                // Field net/minecraft/advancement/criterion/Criteria.VOLUNTARY_EXILE:Lnet/minecraft/advancement/criterion/TickCriterion;
+      62: aload_1
+      63: invokevirtual #409                // Method net/minecraft/advancement/criterion/TickCriterion.trigger:(Lnet/minecraft/server/network/ServerPlayerEntity;)V
+      66: iconst_1
+      67: ireturn
+
+  public void invalidate();
+    Code:
+       0: aload_0
+       1: iconst_0
+       2: putfield      #195                // Field active:Z
+       5: aload_0
+       6: getfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+       9: invokevirtual #415                // Method net/minecraft/entity/boss/ServerBossBar.clearPlayers:()V
+      12: aload_0
+      13: getstatic     #257                // Field net/minecraft/village/raid/Raid$Status.STOPPED:Lnet/minecraft/village/raid/Raid$Status;
+      16: putfield      #214                // Field status:Lnet/minecraft/village/raid/Raid$Status;
+      19: return
+
+  public void tick(net.minecraft.server.world.ServerWorld);
+    Code:
+       0: aload_0
+       1: invokevirtual #418                // Method hasStopped:()Z
+       4: ifeq          8
+       7: return
+       8: aload_0
+       9: getfield      #214                // Field status:Lnet/minecraft/village/raid/Raid$Status;
+      12: getstatic     #212                // Field net/minecraft/village/raid/Raid$Status.ONGOING:Lnet/minecraft/village/raid/Raid$Status;
+      15: if_acmpne     850
+      18: aload_0
+      19: getfield      #195                // Field active:Z
+      22: istore_2
+      23: aload_0
+      24: aload_1
+      25: aload_0
+      26: getfield      #203                // Field center:Lnet/minecraft/util/math/BlockPos;
+      29: invokevirtual #422                // Method net/minecraft/server/world/ServerWorld.isChunkLoaded:(Lnet/minecraft/util/math/BlockPos;)Z
+      32: putfield      #195                // Field active:Z
+      35: aload_1
+      36: invokevirtual #426                // Method net/minecraft/server/world/ServerWorld.getDifficulty:()Lnet/minecraft/world/Difficulty;
+      39: getstatic     #431                // Field net/minecraft/world/Difficulty.PEACEFUL:Lnet/minecraft/world/Difficulty;
+      42: if_acmpne     50
+      45: aload_0
+      46: invokevirtual #433                // Method invalidate:()V
+      49: return
+      50: iload_2
+      51: aload_0
+      52: getfield      #195                // Field active:Z
+      55: if_icmpeq     69
+      58: aload_0
+      59: getfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+      62: aload_0
+      63: getfield      #195                // Field active:Z
+      66: invokevirtual #437                // Method net/minecraft/entity/boss/ServerBossBar.setVisible:(Z)V
+      69: aload_0
+      70: getfield      #195                // Field active:Z
+      73: ifne          77
+      76: return
+      77: aload_1
+      78: aload_0
+      79: getfield      #203                // Field center:Lnet/minecraft/util/math/BlockPos;
+      82: invokevirtual #440                // Method net/minecraft/server/world/ServerWorld.isNearOccupiedPointOfInterest:(Lnet/minecraft/util/math/BlockPos;)Z
+      85: ifne          93
+      88: aload_0
+      89: aload_1
+      90: invokevirtual #443                // Method moveRaidCenter:(Lnet/minecraft/server/world/ServerWorld;)V
+      93: aload_1
+      94: aload_0
+      95: getfield      #203                // Field center:Lnet/minecraft/util/math/BlockPos;
+      98: invokevirtual #440                // Method net/minecraft/server/world/ServerWorld.isNearOccupiedPointOfInterest:(Lnet/minecraft/util/math/BlockPos;)Z
+     101: ifne          125
+     104: aload_0
+     105: getfield      #227                // Field wavesSpawned:I
+     108: ifle          121
+     111: aload_0
+     112: getstatic     #263                // Field net/minecraft/village/raid/Raid$Status.LOSS:Lnet/minecraft/village/raid/Raid$Status;
+     115: putfield      #214                // Field status:Lnet/minecraft/village/raid/Raid$Status;
+     118: goto          125
+     121: aload_0
+     122: invokevirtual #433                // Method invalidate:()V
+     125: aload_0
+     126: dup
+     127: getfield      #223                // Field ticksActive:J
+     130: lconst_1
+     131: ladd
+     132: putfield      #223                // Field ticksActive:J
+     135: aload_0
+     136: getfield      #223                // Field ticksActive:J
+     139: ldc2_w        #444                // long 48000l
+     142: lcmp
+     143: iflt          151
+     146: aload_0
+     147: invokevirtual #433                // Method invalidate:()V
+     150: return
+     151: aload_0
+     152: invokevirtual #253                // Method getRaiderCount:()I
+     155: istore_3
+     156: iload_3
+     157: ifne          338
+     160: aload_0
+     161: invokevirtual #448                // Method shouldSpawnMoreGroups:()Z
+     164: ifeq          338
+     167: aload_0
+     168: getfield      #197                // Field preRaidTicks:I
+     171: ifle          306
+     174: aload_0
+     175: getfield      #193                // Field preCalculatedRaidersSpawnLocation:Ljava/util/Optional;
+     178: invokevirtual #451                // Method java/util/Optional.isPresent:()Z
+     181: istore        4
+     183: iload         4
+     185: ifne          201
+     188: aload_0
+     189: getfield      #197                // Field preRaidTicks:I
+     192: iconst_5
+     193: irem
+     194: ifne          201
+     197: iconst_1
+     198: goto          202
+     201: iconst_0
+     202: istore        5
+     204: iload         4
+     206: ifeq          229
+     209: aload_1
+     210: aload_0
+     211: getfield      #193                // Field preCalculatedRaidersSpawnLocation:Ljava/util/Optional;
+     214: invokevirtual #454                // Method java/util/Optional.get:()Ljava/lang/Object;
+     217: checkcast     #35                 // class net/minecraft/util/math/BlockPos
+     220: invokevirtual #457                // Method net/minecraft/server/world/ServerWorld.shouldTickEntityAt:(Lnet/minecraft/util/math/BlockPos;)Z
+     223: ifne          229
+     226: iconst_1
+     227: istore        5
+     229: iload         5
+     231: ifeq          243
+     234: aload_0
+     235: aload_0
+     236: aload_1
+     237: invokevirtual #461                // Method getRaidersSpawnLocation:(Lnet/minecraft/server/world/ServerWorld;)Ljava/util/Optional;
+     240: putfield      #193                // Field preCalculatedRaidersSpawnLocation:Ljava/util/Optional;
+     243: aload_0
+     244: getfield      #197                // Field preRaidTicks:I
+     247: sipush        300
+     250: if_icmpeq     263
+     253: aload_0
+     254: getfield      #197                // Field preRaidTicks:I
+     257: bipush        20
+     259: irem
+     260: ifne          268
+     263: aload_0
+     264: aload_1
+     265: invokevirtual #463                // Method updateBarToPlayers:(Lnet/minecraft/server/world/ServerWorld;)V
+     268: aload_0
+     269: dup
+     270: getfield      #197                // Field preRaidTicks:I
+     273: iconst_1
+     274: isub
+     275: putfield      #197                // Field preRaidTicks:I
+     278: aload_0
+     279: getfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+     282: sipush        300
+     285: aload_0
+     286: getfield      #197                // Field preRaidTicks:I
+     289: isub
+     290: i2f
+     291: ldc_w         #464                // float 300.0f
+     294: fdiv
+     295: fconst_0
+     296: fconst_1
+     297: invokestatic  #467                // Method net/minecraft/util/math/MathHelper.clamp:(FFF)F
+     300: invokevirtual #201                // Method net/minecraft/entity/boss/ServerBossBar.setPercent:(F)V
+     303: goto          338
+     306: aload_0
+     307: getfield      #197                // Field preRaidTicks:I
+     310: ifne          338
+     313: aload_0
+     314: getfield      #227                // Field wavesSpawned:I
+     317: ifle          338
+     320: aload_0
+     321: sipush        300
+     324: putfield      #197                // Field preRaidTicks:I
+     327: aload_0
+     328: getfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+     331: getstatic     #164                // Field EVENT_TEXT:Lnet/minecraft/text/Text;
+     334: invokevirtual #471                // Method net/minecraft/entity/boss/ServerBossBar.setName:(Lnet/minecraft/text/Text;)V
+     337: return
+     338: aload_0
+     339: getfield      #223                // Field ticksActive:J
+     342: ldc2_w        #472                // long 20l
+     345: lrem
+     346: lconst_0
+     347: lcmp
+     348: ifne          436
+     351: aload_0
+     352: aload_1
+     353: invokevirtual #463                // Method updateBarToPlayers:(Lnet/minecraft/server/world/ServerWorld;)V
+     356: aload_0
+     357: aload_1
+     358: invokevirtual #476                // Method removeObsoleteRaiders:(Lnet/minecraft/server/world/ServerWorld;)V
+     361: iload_3
+     362: ifle          426
+     365: iload_3
+     366: iconst_2
+     367: if_icmpgt     413
+     370: aload_0
+     371: getfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+     374: getstatic     #164                // Field EVENT_TEXT:Lnet/minecraft/text/Text;
+     377: invokeinterface #482,  1          // InterfaceMethod net/minecraft/text/Text.copy:()Lnet/minecraft/text/MutableText;
+     382: ldc_w         #484                // String  -
+     385: invokevirtual #490                // Method net/minecraft/text/MutableText.append:(Ljava/lang/String;)Lnet/minecraft/text/MutableText;
+     388: ldc           #78                 // String event.minecraft.raid.raiders_remaining
+     390: iconst_1
+     391: anewarray     #4                  // class java/lang/Object
+     394: dup
+     395: iconst_0
+     396: iload_3
+     397: invokestatic  #496                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+     400: aastore
+     401: invokestatic  #500                // InterfaceMethod net/minecraft/text/Text.translatable:(Ljava/lang/String;[Ljava/lang/Object;)Lnet/minecraft/text/MutableText;
+     404: invokevirtual #503                // Method net/minecraft/text/MutableText.append:(Lnet/minecraft/text/Text;)Lnet/minecraft/text/MutableText;
+     407: invokevirtual #471                // Method net/minecraft/entity/boss/ServerBossBar.setName:(Lnet/minecraft/text/Text;)V
+     410: goto          436
+     413: aload_0
+     414: getfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+     417: getstatic     #164                // Field EVENT_TEXT:Lnet/minecraft/text/Text;
+     420: invokevirtual #471                // Method net/minecraft/entity/boss/ServerBossBar.setName:(Lnet/minecraft/text/Text;)V
+     423: goto          436
+     426: aload_0
+     427: getfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+     430: getstatic     #164                // Field EVENT_TEXT:Lnet/minecraft/text/Text;
+     433: invokevirtual #471                // Method net/minecraft/entity/boss/ServerBossBar.setName:(Lnet/minecraft/text/Text;)V
+     436: getstatic     #508                // Field net/minecraft/SharedConstants.RAIDS:Z
+     439: ifeq          584
+     442: aload_0
+     443: getfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+     446: getstatic     #164                // Field EVENT_TEXT:Lnet/minecraft/text/Text;
+     449: invokeinterface #482,  1          // InterfaceMethod net/minecraft/text/Text.copy:()Lnet/minecraft/text/MutableText;
+     454: ldc_w         #510                // String  wave:
+     457: invokevirtual #490                // Method net/minecraft/text/MutableText.append:(Ljava/lang/String;)Lnet/minecraft/text/MutableText;
+     460: aload_0
+     461: getfield      #227                // Field wavesSpawned:I
+     464: invokedynamic #522,  0            // InvokeDynamic #1:makeConcatWithConstants:(I)Ljava/lang/String;
+     469: invokevirtual #490                // Method net/minecraft/text/MutableText.append:(Ljava/lang/String;)Lnet/minecraft/text/MutableText;
+     472: getstatic     #527                // Field net/minecraft/screen/ScreenTexts.SPACE:Lnet/minecraft/text/Text;
+     475: invokevirtual #503                // Method net/minecraft/text/MutableText.append:(Lnet/minecraft/text/Text;)Lnet/minecraft/text/MutableText;
+     478: ldc_w         #529                // String Raiders alive:
+     481: invokevirtual #490                // Method net/minecraft/text/MutableText.append:(Ljava/lang/String;)Lnet/minecraft/text/MutableText;
+     484: aload_0
+     485: invokevirtual #253                // Method getRaiderCount:()I
+     488: invokedynamic #522,  0            // InvokeDynamic #1:makeConcatWithConstants:(I)Ljava/lang/String;
+     493: invokevirtual #490                // Method net/minecraft/text/MutableText.append:(Ljava/lang/String;)Lnet/minecraft/text/MutableText;
+     496: getstatic     #527                // Field net/minecraft/screen/ScreenTexts.SPACE:Lnet/minecraft/text/Text;
+     499: invokevirtual #503                // Method net/minecraft/text/MutableText.append:(Lnet/minecraft/text/Text;)Lnet/minecraft/text/MutableText;
+     502: aload_0
+     503: invokevirtual #532                // Method getCurrentRaiderHealth:()F
+     506: invokedynamic #535,  0            // InvokeDynamic #1:makeConcatWithConstants:(F)Ljava/lang/String;
+     511: invokevirtual #490                // Method net/minecraft/text/MutableText.append:(Ljava/lang/String;)Lnet/minecraft/text/MutableText;
+     514: ldc_w         #537                // String  /
+     517: invokevirtual #490                // Method net/minecraft/text/MutableText.append:(Ljava/lang/String;)Lnet/minecraft/text/MutableText;
+     520: aload_0
+     521: getfield      #231                // Field totalHealth:F
+     524: invokedynamic #535,  0            // InvokeDynamic #1:makeConcatWithConstants:(F)Ljava/lang/String;
+     529: invokevirtual #490                // Method net/minecraft/text/MutableText.append:(Ljava/lang/String;)Lnet/minecraft/text/MutableText;
+     532: ldc_w         #539                // String  Is bonus?
+     535: invokevirtual #490                // Method net/minecraft/text/MutableText.append:(Ljava/lang/String;)Lnet/minecraft/text/MutableText;
+     538: aload_0
+     539: invokevirtual #542                // Method hasExtraWave:()Z
+     542: ifeq          556
+     545: aload_0
+     546: invokevirtual #545                // Method hasSpawnedExtraWave:()Z
+     549: ifeq          556
+     552: iconst_1
+     553: goto          557
+     556: iconst_0
+     557: invokedynamic #548,  0            // InvokeDynamic #1:makeConcatWithConstants:(Z)Ljava/lang/String;
+     562: invokevirtual #490                // Method net/minecraft/text/MutableText.append:(Ljava/lang/String;)Lnet/minecraft/text/MutableText;
+     565: ldc_w         #550                // String  Status:
+     568: invokevirtual #490                // Method net/minecraft/text/MutableText.append:(Ljava/lang/String;)Lnet/minecraft/text/MutableText;
+     571: aload_0
+     572: getfield      #214                // Field status:Lnet/minecraft/village/raid/Raid$Status;
+     575: invokevirtual #554                // Method net/minecraft/village/raid/Raid$Status.asString:()Ljava/lang/String;
+     578: invokevirtual #490                // Method net/minecraft/text/MutableText.append:(Ljava/lang/String;)Lnet/minecraft/text/MutableText;
+     581: invokevirtual #471                // Method net/minecraft/entity/boss/ServerBossBar.setName:(Lnet/minecraft/text/Text;)V
+     584: iconst_0
+     585: istore        4
+     587: iconst_0
+     588: istore        5
+     590: aload_0
+     591: invokevirtual #557                // Method canSpawnRaiders:()Z
+     594: ifeq          670
+     597: aload_0
+     598: getfield      #193                // Field preCalculatedRaidersSpawnLocation:Ljava/util/Optional;
+     601: aload_0
+     602: aload_1
+     603: invokedynamic #568,  0            // InvokeDynamic #2:get:(Lnet/minecraft/village/raid/Raid;Lnet/minecraft/server/world/ServerWorld;)Ljava/util/function/Supplier;
+     608: invokevirtual #572                // Method java/util/Optional.orElseGet:(Ljava/util/function/Supplier;)Ljava/lang/Object;
+     611: checkcast     #35                 // class net/minecraft/util/math/BlockPos
+     614: astore        6
+     616: aload         6
+     618: ifnull        651
+     621: aload_0
+     622: iconst_1
+     623: putfield      #221                // Field started:Z
+     626: aload_0
+     627: aload_1
+     628: aload         6
+     630: invokevirtual #576                // Method spawnNextWave:(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;)V
+     633: iload         4
+     635: ifne          654
+     638: aload_0
+     639: aload_1
+     640: aload         6
+     642: invokevirtual #579                // Method playRaidHorn:(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;)V
+     645: iconst_1
+     646: istore        4
+     648: goto          654
+     651: iinc          5, 1
+     654: iload         5
+     656: iconst_5
+     657: if_icmple     667
+     660: aload_0
+     661: invokevirtual #433                // Method invalidate:()V
+     664: goto          670
+     667: goto          590
+     670: aload_0
+     671: invokevirtual #581                // Method hasStarted:()Z
+     674: ifeq          842
+     677: aload_0
+     678: invokevirtual #448                // Method shouldSpawnMoreGroups:()Z
+     681: ifne          842
+     684: iload_3
+     685: ifne          842
+     688: aload_0
+     689: getfield      #229                // Field postRaidTicks:I
+     692: bipush        40
+     694: if_icmpge     710
+     697: aload_0
+     698: dup
+     699: getfield      #229                // Field postRaidTicks:I
+     702: iconst_1
+     703: iadd
+     704: putfield      #229                // Field postRaidTicks:I
+     707: goto          842
+     710: aload_0
+     711: getstatic     #260                // Field net/minecraft/village/raid/Raid$Status.VICTORY:Lnet/minecraft/village/raid/Raid$Status;
+     714: putfield      #214                // Field status:Lnet/minecraft/village/raid/Raid$Status;
+     717: aload_0
+     718: getfield      #160                // Field heroesOfTheVillage:Ljava/util/Set;
+     721: invokeinterface #347,  1          // InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+     726: astore        6
+     728: aload         6
+     730: invokeinterface #287,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+     735: ifeq          842
+     738: aload         6
+     740: invokeinterface #291,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+     745: checkcast     #583                // class java/util/UUID
+     748: astore        7
+     750: aload_1
+     751: aload         7
+     753: invokevirtual #587                // Method net/minecraft/server/world/ServerWorld.getEntity:(Ljava/util/UUID;)Lnet/minecraft/entity/Entity;
+     756: astore        8
+     758: aload         8
+     760: instanceof    #589                // class net/minecraft/entity/LivingEntity
+     763: ifeq          839
+     766: aload         8
+     768: checkcast     #589                // class net/minecraft/entity/LivingEntity
+     771: astore        9
+     773: aload         8
+     775: invokevirtual #594                // Method net/minecraft/entity/Entity.isSpectator:()Z
+     778: ifne          839
+     781: aload         9
+     783: new           #377                // class net/minecraft/entity/effect/StatusEffectInstance
+     786: dup
+     787: getstatic     #597                // Field net/minecraft/entity/effect/StatusEffects.HERO_OF_THE_VILLAGE:Lnet/minecraft/registry/entry/RegistryEntry;
+     790: ldc           #70                 // int 48000
+     792: aload_0
+     793: getfield      #225                // Field raidOmenLevel:I
+     796: iconst_1
+     797: isub
+     798: iconst_0
+     799: iconst_0
+     800: iconst_1
+     801: invokespecial #600                // Method net/minecraft/entity/effect/StatusEffectInstance."<init>":(Lnet/minecraft/registry/entry/RegistryEntry;IIZZZ)V
+     804: invokevirtual #604                // Method net/minecraft/entity/LivingEntity.addStatusEffect:(Lnet/minecraft/entity/effect/StatusEffectInstance;)Z
+     807: pop
+     808: aload         9
+     810: instanceof    #339                // class net/minecraft/server/network/ServerPlayerEntity
+     813: ifeq          839
+     816: aload         9
+     818: checkcast     #339                // class net/minecraft/server/network/ServerPlayerEntity
+     821: astore        10
+     823: aload         10
+     825: getstatic     #607                // Field net/minecraft/stat/Stats.RAID_WIN:Lnet/minecraft/util/Identifier;
+     828: invokevirtual #398                // Method net/minecraft/server/network/ServerPlayerEntity.incrementStat:(Lnet/minecraft/util/Identifier;)V
+     831: getstatic     #609                // Field net/minecraft/advancement/criterion/Criteria.HERO_OF_THE_VILLAGE:Lnet/minecraft/advancement/criterion/TickCriterion;
+     834: aload         10
+     836: invokevirtual #409                // Method net/minecraft/advancement/criterion/TickCriterion.trigger:(Lnet/minecraft/server/network/ServerPlayerEntity;)V
+     839: goto          728
+     842: aload_0
+     843: aload_1
+     844: invokevirtual #612                // Method markDirty:(Lnet/minecraft/server/world/ServerWorld;)V
+     847: goto          943
+     850: aload_0
+     851: invokevirtual #614                // Method isFinished:()Z
+     854: ifeq          943
+     857: aload_0
+     858: dup
+     859: getfield      #616                // Field finishCooldown:I
+     862: iconst_1
+     863: iadd
+     864: putfield      #616                // Field finishCooldown:I
+     867: aload_0
+     868: getfield      #616                // Field finishCooldown:I
+     871: sipush        600
+     874: if_icmplt     882
+     877: aload_0
+     878: invokevirtual #433                // Method invalidate:()V
+     881: return
+     882: aload_0
+     883: getfield      #616                // Field finishCooldown:I
+     886: bipush        20
+     888: irem
+     889: ifne          943
+     892: aload_0
+     893: aload_1
+     894: invokevirtual #463                // Method updateBarToPlayers:(Lnet/minecraft/server/world/ServerWorld;)V
+     897: aload_0
+     898: getfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+     901: iconst_1
+     902: invokevirtual #437                // Method net/minecraft/entity/boss/ServerBossBar.setVisible:(Z)V
+     905: aload_0
+     906: invokevirtual #242                // Method hasWon:()Z
+     909: ifeq          933
+     912: aload_0
+     913: getfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+     916: fconst_0
+     917: invokevirtual #201                // Method net/minecraft/entity/boss/ServerBossBar.setPercent:(F)V
+     920: aload_0
+     921: getfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+     924: getstatic     #618                // Field VICTORY_TITLE:Lnet/minecraft/text/Text;
+     927: invokevirtual #471                // Method net/minecraft/entity/boss/ServerBossBar.setName:(Lnet/minecraft/text/Text;)V
+     930: goto          943
+     933: aload_0
+     934: getfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+     937: getstatic     #620                // Field DEFEAT_TITLE:Lnet/minecraft/text/Text;
+     940: invokevirtual #471                // Method net/minecraft/entity/boss/ServerBossBar.setName:(Lnet/minecraft/text/Text;)V
+     943: return
+
+  private void moveRaidCenter(net.minecraft.server.world.ServerWorld);
+    Code:
+       0: aload_0
+       1: getfield      #203                // Field center:Lnet/minecraft/util/math/BlockPos;
+       4: invokestatic  #638                // Method net/minecraft/util/math/ChunkSectionPos.from:(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/util/math/ChunkSectionPos;
+       7: iconst_2
+       8: invokestatic  #642                // Method net/minecraft/util/math/ChunkSectionPos.stream:(Lnet/minecraft/util/math/ChunkSectionPos;I)Ljava/util/stream/Stream;
+      11: astore_2
+      12: aload_2
+      13: aload_1
+      14: dup
+      15: invokestatic  #648                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+      18: pop
+      19: invokedynamic #656,  0            // InvokeDynamic #3:test:(Lnet/minecraft/server/world/ServerWorld;)Ljava/util/function/Predicate;
+      24: invokeinterface #662,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+      29: invokedynamic #673,  0            // InvokeDynamic #4:apply:()Ljava/util/function/Function;
+      34: invokeinterface #677,  2          // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+      39: aload_0
+      40: invokedynamic #689,  0            // InvokeDynamic #5:applyAsDouble:(Lnet/minecraft/village/raid/Raid;)Ljava/util/function/ToDoubleFunction;
+      45: invokestatic  #695                // InterfaceMethod java/util/Comparator.comparingDouble:(Ljava/util/function/ToDoubleFunction;)Ljava/util/Comparator;
+      48: invokeinterface #699,  2          // InterfaceMethod java/util/stream/Stream.min:(Ljava/util/Comparator;)Ljava/util/Optional;
+      53: aload_0
+      54: invokedynamic #711,  0            // InvokeDynamic #6:accept:(Lnet/minecraft/village/raid/Raid;)Ljava/util/function/Consumer;
+      59: invokevirtual #715                // Method java/util/Optional.ifPresent:(Ljava/util/function/Consumer;)V
+      62: return
+
+  private java.util.Optional<net.minecraft.util.math.BlockPos> getRaidersSpawnLocation(net.minecraft.server.world.ServerWorld);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: bipush        8
+       4: invokevirtual #722                // Method findRandomRaidersSpawnLocation:(Lnet/minecraft/server/world/ServerWorld;I)Lnet/minecraft/util/math/BlockPos;
+       7: astore_2
+       8: aload_2
+       9: ifnull        17
+      12: aload_2
+      13: invokestatic  #726                // Method java/util/Optional.of:(Ljava/lang/Object;)Ljava/util/Optional;
+      16: areturn
+      17: invokestatic  #191                // Method java/util/Optional.empty:()Ljava/util/Optional;
+      20: areturn
+
+  private boolean shouldSpawnMoreGroups();
+    Code:
+       0: aload_0
+       1: invokevirtual #542                // Method hasExtraWave:()Z
+       4: ifeq          20
+       7: aload_0
+       8: invokevirtual #545                // Method hasSpawnedExtraWave:()Z
+      11: ifne          18
+      14: iconst_1
+      15: goto          19
+      18: iconst_0
+      19: ireturn
+      20: aload_0
+      21: invokevirtual #729                // Method hasSpawnedFinalWave:()Z
+      24: ifne          31
+      27: iconst_1
+      28: goto          32
+      31: iconst_0
+      32: ireturn
+
+  private boolean hasSpawnedFinalWave();
+    Code:
+       0: aload_0
+       1: invokevirtual #731                // Method getGroupsSpawned:()I
+       4: aload_0
+       5: getfield      #209                // Field waveCount:I
+       8: if_icmpne     15
+      11: iconst_1
+      12: goto          16
+      15: iconst_0
+      16: ireturn
+
+  private boolean hasExtraWave();
+    Code:
+       0: aload_0
+       1: getfield      #225                // Field raidOmenLevel:I
+       4: iconst_1
+       5: if_icmple     12
+       8: iconst_1
+       9: goto          13
+      12: iconst_0
+      13: ireturn
+
+  private boolean hasSpawnedExtraWave();
+    Code:
+       0: aload_0
+       1: invokevirtual #731                // Method getGroupsSpawned:()I
+       4: aload_0
+       5: getfield      #209                // Field waveCount:I
+       8: if_icmple     15
+      11: iconst_1
+      12: goto          16
+      15: iconst_0
+      16: ireturn
+
+  private boolean isSpawningExtraWave();
+    Code:
+       0: aload_0
+       1: invokevirtual #729                // Method hasSpawnedFinalWave:()Z
+       4: ifeq          25
+       7: aload_0
+       8: invokevirtual #253                // Method getRaiderCount:()I
+      11: ifne          25
+      14: aload_0
+      15: invokevirtual #542                // Method hasExtraWave:()Z
+      18: ifeq          25
+      21: iconst_1
+      22: goto          26
+      25: iconst_0
+      26: ireturn
+
+  private void removeObsoleteRaiders(net.minecraft.server.world.ServerWorld);
+    Code:
+       0: aload_0
+       1: getfield      #152                // Field waveToRaiders:Ljava/util/Map;
+       4: invokeinterface #274,  1          // InterfaceMethod java/util/Map.values:()Ljava/util/Collection;
+       9: invokeinterface #280,  1          // InterfaceMethod java/util/Collection.iterator:()Ljava/util/Iterator;
+      14: astore_2
+      15: invokestatic  #158                // Method com/google/common/collect/Sets.newHashSet:()Ljava/util/HashSet;
+      18: astore_3
+      19: aload_2
+      20: invokeinterface #287,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      25: ifeq          220
+      28: aload_2
+      29: invokeinterface #291,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      34: checkcast     #233                // class java/util/Set
+      37: astore        4
+      39: aload         4
+      41: invokeinterface #347,  1          // InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+      46: astore        5
+      48: aload         5
+      50: invokeinterface #287,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      55: ifeq          217
+      58: aload         5
+      60: invokeinterface #291,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      65: checkcast     #734                // class net/minecraft/entity/raid/RaiderEntity
+      68: astore        6
+      70: aload         6
+      72: invokevirtual #737                // Method net/minecraft/entity/raid/RaiderEntity.getBlockPos:()Lnet/minecraft/util/math/BlockPos;
+      75: astore        7
+      77: aload         6
+      79: invokevirtual #740                // Method net/minecraft/entity/raid/RaiderEntity.isRemoved:()Z
+      82: ifne          116
+      85: aload         6
+      87: invokevirtual #744                // Method net/minecraft/entity/raid/RaiderEntity.getEntityWorld:()Lnet/minecraft/world/World;
+      90: invokevirtual #750                // Method net/minecraft/world/World.getRegistryKey:()Lnet/minecraft/registry/RegistryKey;
+      93: aload_1
+      94: invokevirtual #751                // Method net/minecraft/server/world/ServerWorld.getRegistryKey:()Lnet/minecraft/registry/RegistryKey;
+      97: if_acmpne     116
+     100: aload_0
+     101: getfield      #203                // Field center:Lnet/minecraft/util/math/BlockPos;
+     104: aload         7
+     106: invokevirtual #755                // Method net/minecraft/util/math/BlockPos.getSquaredDistance:(Lnet/minecraft/util/math/Vec3i;)D
+     109: ldc2_w        #756                // double 12544.0d
+     112: dcmpl
+     113: iflt          128
+     116: aload_3
+     117: aload         6
+     119: invokeinterface #760,  2          // InterfaceMethod java/util/Set.add:(Ljava/lang/Object;)Z
+     124: pop
+     125: goto          48
+     128: aload         6
+     130: getfield      #763                // Field net/minecraft/entity/raid/RaiderEntity.age:I
+     133: sipush        600
+     136: if_icmpgt     142
+     139: goto          48
+     142: aload_1
+     143: aload         6
+     145: invokevirtual #767                // Method net/minecraft/entity/raid/RaiderEntity.getUuid:()Ljava/util/UUID;
+     148: invokevirtual #587                // Method net/minecraft/server/world/ServerWorld.getEntity:(Ljava/util/UUID;)Lnet/minecraft/entity/Entity;
+     151: ifnonnull     163
+     154: aload_3
+     155: aload         6
+     157: invokeinterface #760,  2          // InterfaceMethod java/util/Set.add:(Ljava/lang/Object;)Z
+     162: pop
+     163: aload_1
+     164: aload         7
+     166: invokevirtual #440                // Method net/minecraft/server/world/ServerWorld.isNearOccupiedPointOfInterest:(Lnet/minecraft/util/math/BlockPos;)Z
+     169: ifne          195
+     172: aload         6
+     174: invokevirtual #770                // Method net/minecraft/entity/raid/RaiderEntity.getDespawnCounter:()I
+     177: sipush        2400
+     180: if_icmple     195
+     183: aload         6
+     185: aload         6
+     187: invokevirtual #773                // Method net/minecraft/entity/raid/RaiderEntity.getOutOfRaidCounter:()I
+     190: iconst_1
+     191: iadd
+     192: invokevirtual #776                // Method net/minecraft/entity/raid/RaiderEntity.setOutOfRaidCounter:(I)V
+     195: aload         6
+     197: invokevirtual #773                // Method net/minecraft/entity/raid/RaiderEntity.getOutOfRaidCounter:()I
+     200: bipush        30
+     202: if_icmplt     214
+     205: aload_3
+     206: aload         6
+     208: invokeinterface #760,  2          // InterfaceMethod java/util/Set.add:(Ljava/lang/Object;)Z
+     213: pop
+     214: goto          48
+     217: goto          19
+     220: aload_3
+     221: invokeinterface #347,  1          // InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+     226: astore        4
+     228: aload         4
+     230: invokeinterface #287,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+     235: ifeq          278
+     238: aload         4
+     240: invokeinterface #291,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+     245: checkcast     #734                // class net/minecraft/entity/raid/RaiderEntity
+     248: astore        5
+     250: aload_0
+     251: aload_1
+     252: aload         5
+     254: iconst_1
+     255: invokevirtual #780                // Method removeFromWave:(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/raid/RaiderEntity;Z)V
+     258: aload         5
+     260: invokevirtual #783                // Method net/minecraft/entity/raid/RaiderEntity.isPatrolLeader:()Z
+     263: ifeq          275
+     266: aload_0
+     267: aload         5
+     269: invokevirtual #786                // Method net/minecraft/entity/raid/RaiderEntity.getWave:()I
+     272: invokevirtual #789                // Method removeLeader:(I)V
+     275: goto          228
+     278: return
+
+  private void playRaidHorn(net.minecraft.server.world.ServerWorld, net.minecraft.util.math.BlockPos);
+    Code:
+       0: ldc_w         #796                // float 13.0f
+       3: fstore_3
+       4: bipush        64
+       6: istore        4
+       8: aload_0
+       9: getfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+      12: invokevirtual #324                // Method net/minecraft/entity/boss/ServerBossBar.getPlayers:()Ljava/util/Collection;
+      15: astore        5
+      17: aload_0
+      18: getfield      #185                // Field random:Lnet/minecraft/util/math/random/Random;
+      21: invokeinterface #800,  1          // InterfaceMethod net/minecraft/util/math/random/Random.nextLong:()J
+      26: lstore        6
+      28: aload_1
+      29: invokevirtual #803                // Method net/minecraft/server/world/ServerWorld.getPlayers:()Ljava/util/List;
+      32: invokeinterface #337,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      37: astore        8
+      39: aload         8
+      41: invokeinterface #287,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      46: ifeq          238
+      49: aload         8
+      51: invokeinterface #291,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      56: checkcast     #339                // class net/minecraft/server/network/ServerPlayerEntity
+      59: astore        9
+      61: aload         9
+      63: invokevirtual #807                // Method net/minecraft/server/network/ServerPlayerEntity.getEntityPos:()Lnet/minecraft/util/math/Vec3d;
+      66: astore        10
+      68: aload_2
+      69: invokestatic  #813                // Method net/minecraft/util/math/Vec3d.ofCenter:(Lnet/minecraft/util/math/Vec3i;)Lnet/minecraft/util/math/Vec3d;
+      72: astore        11
+      74: aload         11
+      76: getfield      #817                // Field net/minecraft/util/math/Vec3d.x:D
+      79: aload         10
+      81: getfield      #817                // Field net/minecraft/util/math/Vec3d.x:D
+      84: dsub
+      85: aload         11
+      87: getfield      #817                // Field net/minecraft/util/math/Vec3d.x:D
+      90: aload         10
+      92: getfield      #817                // Field net/minecraft/util/math/Vec3d.x:D
+      95: dsub
+      96: dmul
+      97: aload         11
+      99: getfield      #820                // Field net/minecraft/util/math/Vec3d.z:D
+     102: aload         10
+     104: getfield      #820                // Field net/minecraft/util/math/Vec3d.z:D
+     107: dsub
+     108: aload         11
+     110: getfield      #820                // Field net/minecraft/util/math/Vec3d.z:D
+     113: aload         10
+     115: getfield      #820                // Field net/minecraft/util/math/Vec3d.z:D
+     118: dsub
+     119: dmul
+     120: dadd
+     121: invokestatic  #826                // Method java/lang/Math.sqrt:(D)D
+     124: dstore        12
+     126: aload         10
+     128: getfield      #817                // Field net/minecraft/util/math/Vec3d.x:D
+     131: ldc2_w        #827                // double 13.0d
+     134: dload         12
+     136: ddiv
+     137: aload         11
+     139: getfield      #817                // Field net/minecraft/util/math/Vec3d.x:D
+     142: aload         10
+     144: getfield      #817                // Field net/minecraft/util/math/Vec3d.x:D
+     147: dsub
+     148: dmul
+     149: dadd
+     150: dstore        14
+     152: aload         10
+     154: getfield      #820                // Field net/minecraft/util/math/Vec3d.z:D
+     157: ldc2_w        #827                // double 13.0d
+     160: dload         12
+     162: ddiv
+     163: aload         11
+     165: getfield      #820                // Field net/minecraft/util/math/Vec3d.z:D
+     168: aload         10
+     170: getfield      #820                // Field net/minecraft/util/math/Vec3d.z:D
+     173: dsub
+     174: dmul
+     175: dadd
+     176: dstore        16
+     178: dload         12
+     180: ldc2_w        #829                // double 64.0d
+     183: dcmpg
+     184: ifle          199
+     187: aload         5
+     189: aload         9
+     191: invokeinterface #831,  2          // InterfaceMethod java/util/Collection.contains:(Ljava/lang/Object;)Z
+     196: ifeq          235
+     199: aload         9
+     201: getfield      #835                // Field net/minecraft/server/network/ServerPlayerEntity.networkHandler:Lnet/minecraft/server/network/ServerPlayNetworkHandler;
+     204: new           #837                // class net/minecraft/network/packet/s2c/play/PlaySoundS2CPacket
+     207: dup
+     208: getstatic     #843                // Field net/minecraft/sound/SoundEvents.EVENT_RAID_HORN:Lnet/minecraft/registry/entry/RegistryEntry$Reference;
+     211: getstatic     #849                // Field net/minecraft/sound/SoundCategory.NEUTRAL:Lnet/minecraft/sound/SoundCategory;
+     214: dload         14
+     216: aload         9
+     218: invokevirtual #853                // Method net/minecraft/server/network/ServerPlayerEntity.getY:()D
+     221: dload         16
+     223: ldc_w         #854                // float 64.0f
+     226: fconst_1
+     227: lload         6
+     229: invokespecial #857                // Method net/minecraft/network/packet/s2c/play/PlaySoundS2CPacket."<init>":(Lnet/minecraft/registry/entry/RegistryEntry;Lnet/minecraft/sound/SoundCategory;DDDFFJ)V
+     232: invokevirtual #863                // Method net/minecraft/server/network/ServerPlayNetworkHandler.sendPacket:(Lnet/minecraft/network/packet/Packet;)V
+     235: goto          39
+     238: return
+
+  private void spawnNextWave(net.minecraft.server.world.ServerWorld, net.minecraft.util.math.BlockPos);
+    Code:
+       0: iconst_0
+       1: istore_3
+       2: aload_0
+       3: getfield      #227                // Field wavesSpawned:I
+       6: iconst_1
+       7: iadd
+       8: istore        4
+      10: aload_0
+      11: fconst_0
+      12: putfield      #231                // Field totalHealth:F
+      15: aload_1
+      16: aload_2
+      17: invokevirtual #878                // Method net/minecraft/server/world/ServerWorld.getLocalDifficulty:(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/world/LocalDifficulty;
+      20: astore        5
+      22: aload_0
+      23: invokevirtual #880                // Method isSpawningExtraWave:()Z
+      26: istore        6
+      28: getstatic     #884                // Field net/minecraft/village/raid/Raid$Member.VALUES:[Lnet/minecraft/village/raid/Raid$Member;
+      31: astore        7
+      33: aload         7
+      35: arraylength
+      36: istore        8
+      38: iconst_0
+      39: istore        9
+      41: iload         9
+      43: iload         8
+      45: if_icmpge     304
+      48: aload         7
+      50: iload         9
+      52: aaload
+      53: astore        10
+      55: aload_0
+      56: aload         10
+      58: iload         4
+      60: iload         6
+      62: invokevirtual #891                // Method getCount:(Lnet/minecraft/village/raid/Raid$Member;IZ)I
+      65: aload_0
+      66: aload         10
+      68: aload_0
+      69: getfield      #185                // Field random:Lnet/minecraft/util/math/random/Random;
+      72: iload         4
+      74: aload         5
+      76: iload         6
+      78: invokevirtual #895                // Method getBonusCount:(Lnet/minecraft/village/raid/Raid$Member;Lnet/minecraft/util/math/random/Random;ILnet/minecraft/world/LocalDifficulty;Z)I
+      81: iadd
+      82: istore        11
+      84: iconst_0
+      85: istore        12
+      87: iconst_0
+      88: istore        13
+      90: iload         13
+      92: iload         11
+      94: if_icmpge     298
+      97: aload         10
+      99: getfield      #899                // Field net/minecraft/village/raid/Raid$Member.type:Lnet/minecraft/entity/EntityType;
+     102: aload_1
+     103: getstatic     #905                // Field net/minecraft/entity/SpawnReason.EVENT:Lnet/minecraft/entity/SpawnReason;
+     106: invokevirtual #910                // Method net/minecraft/entity/EntityType.create:(Lnet/minecraft/world/World;Lnet/minecraft/entity/SpawnReason;)Lnet/minecraft/entity/Entity;
+     109: checkcast     #734                // class net/minecraft/entity/raid/RaiderEntity
+     112: astore        14
+     114: aload         14
+     116: ifnonnull     122
+     119: goto          298
+     122: iload_3
+     123: ifne          150
+     126: aload         14
+     128: invokevirtual #913                // Method net/minecraft/entity/raid/RaiderEntity.canLead:()Z
+     131: ifeq          150
+     134: aload         14
+     136: iconst_1
+     137: invokevirtual #916                // Method net/minecraft/entity/raid/RaiderEntity.setPatrolLeader:(Z)V
+     140: aload_0
+     141: iload         4
+     143: aload         14
+     145: invokevirtual #920                // Method setWaveCaptain:(ILnet/minecraft/entity/raid/RaiderEntity;)V
+     148: iconst_1
+     149: istore_3
+     150: aload_0
+     151: aload_1
+     152: iload         4
+     154: aload         14
+     156: aload_2
+     157: iconst_0
+     158: invokevirtual #924                // Method addRaider:(Lnet/minecraft/server/world/ServerWorld;ILnet/minecraft/entity/raid/RaiderEntity;Lnet/minecraft/util/math/BlockPos;Z)V
+     161: aload         10
+     163: getfield      #899                // Field net/minecraft/village/raid/Raid$Member.type:Lnet/minecraft/entity/EntityType;
+     166: getstatic     #927                // Field net/minecraft/entity/EntityType.RAVAGER:Lnet/minecraft/entity/EntityType;
+     169: if_acmpne     292
+     172: aconst_null
+     173: astore        15
+     175: iload         4
+     177: aload_0
+     178: getstatic     #930                // Field net/minecraft/world/Difficulty.NORMAL:Lnet/minecraft/world/Difficulty;
+     181: invokevirtual #207                // Method getMaxWaves:(Lnet/minecraft/world/Difficulty;)I
+     184: if_icmpne     205
+     187: getstatic     #933                // Field net/minecraft/entity/EntityType.PILLAGER:Lnet/minecraft/entity/EntityType;
+     190: aload_1
+     191: getstatic     #905                // Field net/minecraft/entity/SpawnReason.EVENT:Lnet/minecraft/entity/SpawnReason;
+     194: invokevirtual #910                // Method net/minecraft/entity/EntityType.create:(Lnet/minecraft/world/World;Lnet/minecraft/entity/SpawnReason;)Lnet/minecraft/entity/Entity;
+     197: checkcast     #734                // class net/minecraft/entity/raid/RaiderEntity
+     200: astore        15
+     202: goto          255
+     205: iload         4
+     207: aload_0
+     208: getstatic     #936                // Field net/minecraft/world/Difficulty.HARD:Lnet/minecraft/world/Difficulty;
+     211: invokevirtual #207                // Method getMaxWaves:(Lnet/minecraft/world/Difficulty;)I
+     214: if_icmplt     255
+     217: iload         12
+     219: ifne          240
+     222: getstatic     #939                // Field net/minecraft/entity/EntityType.EVOKER:Lnet/minecraft/entity/EntityType;
+     225: aload_1
+     226: getstatic     #905                // Field net/minecraft/entity/SpawnReason.EVENT:Lnet/minecraft/entity/SpawnReason;
+     229: invokevirtual #910                // Method net/minecraft/entity/EntityType.create:(Lnet/minecraft/world/World;Lnet/minecraft/entity/SpawnReason;)Lnet/minecraft/entity/Entity;
+     232: checkcast     #734                // class net/minecraft/entity/raid/RaiderEntity
+     235: astore        15
+     237: goto          255
+     240: getstatic     #942                // Field net/minecraft/entity/EntityType.VINDICATOR:Lnet/minecraft/entity/EntityType;
+     243: aload_1
+     244: getstatic     #905                // Field net/minecraft/entity/SpawnReason.EVENT:Lnet/minecraft/entity/SpawnReason;
+     247: invokevirtual #910                // Method net/minecraft/entity/EntityType.create:(Lnet/minecraft/world/World;Lnet/minecraft/entity/SpawnReason;)Lnet/minecraft/entity/Entity;
+     250: checkcast     #734                // class net/minecraft/entity/raid/RaiderEntity
+     253: astore        15
+     255: iinc          12, 1
+     258: aload         15
+     260: ifnull        292
+     263: aload_0
+     264: aload_1
+     265: iload         4
+     267: aload         15
+     269: aload_2
+     270: iconst_0
+     271: invokevirtual #924                // Method addRaider:(Lnet/minecraft/server/world/ServerWorld;ILnet/minecraft/entity/raid/RaiderEntity;Lnet/minecraft/util/math/BlockPos;Z)V
+     274: aload         15
+     276: aload_2
+     277: fconst_0
+     278: fconst_0
+     279: invokevirtual #946                // Method net/minecraft/entity/raid/RaiderEntity.refreshPositionAndAngles:(Lnet/minecraft/util/math/BlockPos;FF)V
+     282: aload         15
+     284: aload         14
+     286: iconst_0
+     287: iconst_0
+     288: invokevirtual #950                // Method net/minecraft/entity/raid/RaiderEntity.startRiding:(Lnet/minecraft/entity/Entity;ZZ)Z
+     291: pop
+     292: iinc          13, 1
+     295: goto          90
+     298: iinc          9, 1
+     301: goto          41
+     304: aload_0
+     305: invokestatic  #191                // Method java/util/Optional.empty:()Ljava/util/Optional;
+     308: putfield      #193                // Field preCalculatedRaidersSpawnLocation:Ljava/util/Optional;
+     311: aload_0
+     312: dup
+     313: getfield      #227                // Field wavesSpawned:I
+     316: iconst_1
+     317: iadd
+     318: putfield      #227                // Field wavesSpawned:I
+     321: aload_0
+     322: invokevirtual #953                // Method updateBar:()V
+     325: aload_0
+     326: aload_1
+     327: invokevirtual #612                // Method markDirty:(Lnet/minecraft/server/world/ServerWorld;)V
+     330: return
+
+  public void addRaider(net.minecraft.server.world.ServerWorld, int, net.minecraft.entity.raid.RaiderEntity, net.minecraft.util.math.BlockPos, boolean);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: iload_2
+       3: aload_3
+       4: invokevirtual #966                // Method addToWave:(Lnet/minecraft/server/world/ServerWorld;ILnet/minecraft/entity/raid/RaiderEntity;)Z
+       7: istore        6
+       9: iload         6
+      11: ifeq          109
+      14: aload_3
+      15: aload_0
+      16: invokevirtual #970                // Method net/minecraft/entity/raid/RaiderEntity.setRaid:(Lnet/minecraft/village/raid/Raid;)V
+      19: aload_3
+      20: iload_2
+      21: invokevirtual #973                // Method net/minecraft/entity/raid/RaiderEntity.setWave:(I)V
+      24: aload_3
+      25: iconst_1
+      26: invokevirtual #976                // Method net/minecraft/entity/raid/RaiderEntity.setAbleToJoinRaid:(Z)V
+      29: aload_3
+      30: iconst_0
+      31: invokevirtual #776                // Method net/minecraft/entity/raid/RaiderEntity.setOutOfRaidCounter:(I)V
+      34: iload         5
+      36: ifne          109
+      39: aload         4
+      41: ifnull        109
+      44: aload_3
+      45: aload         4
+      47: invokevirtual #979                // Method net/minecraft/util/math/BlockPos.getX:()I
+      50: i2d
+      51: ldc2_w        #980                // double 0.5d
+      54: dadd
+      55: aload         4
+      57: invokevirtual #983                // Method net/minecraft/util/math/BlockPos.getY:()I
+      60: i2d
+      61: dconst_1
+      62: dadd
+      63: aload         4
+      65: invokevirtual #986                // Method net/minecraft/util/math/BlockPos.getZ:()I
+      68: i2d
+      69: ldc2_w        #980                // double 0.5d
+      72: dadd
+      73: invokevirtual #990                // Method net/minecraft/entity/raid/RaiderEntity.setPosition:(DDD)V
+      76: aload_3
+      77: aload_1
+      78: aload_1
+      79: aload         4
+      81: invokevirtual #878                // Method net/minecraft/server/world/ServerWorld.getLocalDifficulty:(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/world/LocalDifficulty;
+      84: getstatic     #905                // Field net/minecraft/entity/SpawnReason.EVENT:Lnet/minecraft/entity/SpawnReason;
+      87: aconst_null
+      88: invokevirtual #994                // Method net/minecraft/entity/raid/RaiderEntity.initialize:(Lnet/minecraft/world/ServerWorldAccess;Lnet/minecraft/world/LocalDifficulty;Lnet/minecraft/entity/SpawnReason;Lnet/minecraft/entity/EntityData;)Lnet/minecraft/entity/EntityData;
+      91: pop
+      92: aload_3
+      93: aload_1
+      94: iload_2
+      95: iconst_0
+      96: invokevirtual #998                // Method net/minecraft/entity/raid/RaiderEntity.addBonusForWave:(Lnet/minecraft/server/world/ServerWorld;IZ)V
+      99: aload_3
+     100: iconst_1
+     101: invokevirtual #1001               // Method net/minecraft/entity/raid/RaiderEntity.setOnGround:(Z)V
+     104: aload_1
+     105: aload_3
+     106: invokevirtual #1005               // Method net/minecraft/server/world/ServerWorld.spawnEntityAndPassengers:(Lnet/minecraft/entity/Entity;)V
+     109: return
+
+  public void updateBar();
+    Code:
+       0: aload_0
+       1: getfield      #177                // Field bar:Lnet/minecraft/entity/boss/ServerBossBar;
+       4: aload_0
+       5: invokevirtual #532                // Method getCurrentRaiderHealth:()F
+       8: aload_0
+       9: getfield      #231                // Field totalHealth:F
+      12: fdiv
+      13: fconst_0
+      14: fconst_1
+      15: invokestatic  #467                // Method net/minecraft/util/math/MathHelper.clamp:(FFF)F
+      18: invokevirtual #201                // Method net/minecraft/entity/boss/ServerBossBar.setPercent:(F)V
+      21: return
+
+  public float getCurrentRaiderHealth();
+    Code:
+       0: fconst_0
+       1: fstore_1
+       2: aload_0
+       3: getfield      #152                // Field waveToRaiders:Ljava/util/Map;
+       6: invokeinterface #274,  1          // InterfaceMethod java/util/Map.values:()Ljava/util/Collection;
+      11: invokeinterface #280,  1          // InterfaceMethod java/util/Collection.iterator:()Ljava/util/Iterator;
+      16: astore_2
+      17: aload_2
+      18: invokeinterface #287,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      23: ifeq          80
+      26: aload_2
+      27: invokeinterface #291,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      32: checkcast     #233                // class java/util/Set
+      35: astore_3
+      36: aload_3
+      37: invokeinterface #347,  1          // InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+      42: astore        4
+      44: aload         4
+      46: invokeinterface #287,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      51: ifeq          77
+      54: aload         4
+      56: invokeinterface #291,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      61: checkcast     #734                // class net/minecraft/entity/raid/RaiderEntity
+      64: astore        5
+      66: fload_1
+      67: aload         5
+      69: invokevirtual #1008               // Method net/minecraft/entity/raid/RaiderEntity.getHealth:()F
+      72: fadd
+      73: fstore_1
+      74: goto          44
+      77: goto          17
+      80: fload_1
+      81: freturn
+
+  private boolean canSpawnRaiders();
+    Code:
+       0: aload_0
+       1: getfield      #197                // Field preRaidTicks:I
+       4: ifne          36
+       7: aload_0
+       8: getfield      #227                // Field wavesSpawned:I
+      11: aload_0
+      12: getfield      #209                // Field waveCount:I
+      15: if_icmplt     25
+      18: aload_0
+      19: invokevirtual #880                // Method isSpawningExtraWave:()Z
+      22: ifeq          36
+      25: aload_0
+      26: invokevirtual #253                // Method getRaiderCount:()I
+      29: ifne          36
+      32: iconst_1
+      33: goto          37
+      36: iconst_0
+      37: ireturn
+
+  public int getRaiderCount();
+    Code:
+       0: aload_0
+       1: getfield      #152                // Field waveToRaiders:Ljava/util/Map;
+       4: invokeinterface #274,  1          // InterfaceMethod java/util/Map.values:()Ljava/util/Collection;
+       9: invokeinterface #1011,  1         // InterfaceMethod java/util/Collection.stream:()Ljava/util/stream/Stream;
+      14: invokedynamic #1023,  0           // InvokeDynamic #7:applyAsInt:()Ljava/util/function/ToIntFunction;
+      19: invokeinterface #1027,  2         // InterfaceMethod java/util/stream/Stream.mapToInt:(Ljava/util/function/ToIntFunction;)Ljava/util/stream/IntStream;
+      24: invokeinterface #1032,  1         // InterfaceMethod java/util/stream/IntStream.sum:()I
+      29: ireturn
+
+  public void removeFromWave(net.minecraft.server.world.ServerWorld, net.minecraft.entity.raid.RaiderEntity, boolean);
+    Code:
+       0: aload_0
+       1: getfield      #152                // Field waveToRaiders:Ljava/util/Map;
+       4: aload_2
+       5: invokevirtual #786                // Method net/minecraft/entity/raid/RaiderEntity.getWave:()I
+       8: invokestatic  #496                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      11: invokeinterface #1035,  2         // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+      16: checkcast     #233                // class java/util/Set
+      19: astore        4
+      21: aload         4
+      23: ifnull        72
+      26: aload         4
+      28: aload_2
+      29: invokeinterface #1038,  2         // InterfaceMethod java/util/Set.remove:(Ljava/lang/Object;)Z
+      34: istore        5
+      36: iload         5
+      38: ifeq          72
+      41: iload_3
+      42: ifeq          58
+      45: aload_0
+      46: dup
+      47: getfield      #231                // Field totalHealth:F
+      50: aload_2
+      51: invokevirtual #1008               // Method net/minecraft/entity/raid/RaiderEntity.getHealth:()F
+      54: fsub
+      55: putfield      #231                // Field totalHealth:F
+      58: aload_2
+      59: aconst_null
+      60: invokevirtual #970                // Method net/minecraft/entity/raid/RaiderEntity.setRaid:(Lnet/minecraft/village/raid/Raid;)V
+      63: aload_0
+      64: invokevirtual #953                // Method updateBar:()V
+      67: aload_0
+      68: aload_1
+      69: invokevirtual #612                // Method markDirty:(Lnet/minecraft/server/world/ServerWorld;)V
+      72: return
+
+  private void markDirty(net.minecraft.server.world.ServerWorld);
+    Code:
+       0: aload_1
+       1: invokevirtual #1042               // Method net/minecraft/server/world/ServerWorld.getRaidManager:()Lnet/minecraft/village/raid/RaidManager;
+       4: invokevirtual #1046               // Method net/minecraft/village/raid/RaidManager.markDirty:()V
+       7: return
+
+  public static net.minecraft.item.ItemStack createOminousBanner(net.minecraft.registry.RegistryEntryLookup<net.minecraft.block.entity.BannerPattern>);
+    Code:
+       0: new           #1052               // class net/minecraft/item/ItemStack
+       3: dup
+       4: getstatic     #1058               // Field net/minecraft/item/Items.WHITE_BANNER:Lnet/minecraft/item/Item;
+       7: invokespecial #1061               // Method net/minecraft/item/ItemStack."<init>":(Lnet/minecraft/item/ItemConvertible;)V
+      10: astore_1
+      11: new           #28                 // class net/minecraft/component/type/BannerPatternsComponent$Builder
+      14: dup
+      15: invokespecial #1062               // Method net/minecraft/component/type/BannerPatternsComponent$Builder."<init>":()V
+      18: aload_0
+      19: getstatic     #1068               // Field net/minecraft/block/entity/BannerPatterns.RHOMBUS:Lnet/minecraft/registry/RegistryKey;
+      22: getstatic     #1074               // Field net/minecraft/util/DyeColor.CYAN:Lnet/minecraft/util/DyeColor;
+      25: invokevirtual #1077               // Method net/minecraft/component/type/BannerPatternsComponent$Builder.add:(Lnet/minecraft/registry/RegistryEntryLookup;Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/util/DyeColor;)Lnet/minecraft/component/type/BannerPatternsComponent$Builder;
+      28: aload_0
+      29: getstatic     #1080               // Field net/minecraft/block/entity/BannerPatterns.STRIPE_BOTTOM:Lnet/minecraft/registry/RegistryKey;
+      32: getstatic     #1083               // Field net/minecraft/util/DyeColor.LIGHT_GRAY:Lnet/minecraft/util/DyeColor;
+      35: invokevirtual #1077               // Method net/minecraft/component/type/BannerPatternsComponent$Builder.add:(Lnet/minecraft/registry/RegistryEntryLookup;Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/util/DyeColor;)Lnet/minecraft/component/type/BannerPatternsComponent$Builder;
+      38: aload_0
+      39: getstatic     #1086               // Field net/minecraft/block/entity/BannerPatterns.STRIPE_CENTER:Lnet/minecraft/registry/RegistryKey;
+      42: getstatic     #1089               // Field net/minecraft/util/DyeColor.GRAY:Lnet/minecraft/util/DyeColor;
+      45: invokevirtual #1077               // Method net/minecraft/component/type/BannerPatternsComponent$Builder.add:(Lnet/minecraft/registry/RegistryEntryLookup;Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/util/DyeColor;)Lnet/minecraft/component/type/BannerPatternsComponent$Builder;
+      48: aload_0
+      49: getstatic     #1092               // Field net/minecraft/block/entity/BannerPatterns.BORDER:Lnet/minecraft/registry/RegistryKey;
+      52: getstatic     #1083               // Field net/minecraft/util/DyeColor.LIGHT_GRAY:Lnet/minecraft/util/DyeColor;
+      55: invokevirtual #1077               // Method net/minecraft/component/type/BannerPatternsComponent$Builder.add:(Lnet/minecraft/registry/RegistryEntryLookup;Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/util/DyeColor;)Lnet/minecraft/component/type/BannerPatternsComponent$Builder;
+      58: aload_0
+      59: getstatic     #1095               // Field net/minecraft/block/entity/BannerPatterns.STRIPE_MIDDLE:Lnet/minecraft/registry/RegistryKey;
+      62: getstatic     #1098               // Field net/minecraft/util/DyeColor.BLACK:Lnet/minecraft/util/DyeColor;
+      65: invokevirtual #1077               // Method net/minecraft/component/type/BannerPatternsComponent$Builder.add:(Lnet/minecraft/registry/RegistryEntryLookup;Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/util/DyeColor;)Lnet/minecraft/component/type/BannerPatternsComponent$Builder;
+      68: aload_0
+      69: getstatic     #1101               // Field net/minecraft/block/entity/BannerPatterns.HALF_HORIZONTAL:Lnet/minecraft/registry/RegistryKey;
+      72: getstatic     #1083               // Field net/minecraft/util/DyeColor.LIGHT_GRAY:Lnet/minecraft/util/DyeColor;
+      75: invokevirtual #1077               // Method net/minecraft/component/type/BannerPatternsComponent$Builder.add:(Lnet/minecraft/registry/RegistryEntryLookup;Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/util/DyeColor;)Lnet/minecraft/component/type/BannerPatternsComponent$Builder;
+      78: aload_0
+      79: getstatic     #1104               // Field net/minecraft/block/entity/BannerPatterns.CIRCLE:Lnet/minecraft/registry/RegistryKey;
+      82: getstatic     #1083               // Field net/minecraft/util/DyeColor.LIGHT_GRAY:Lnet/minecraft/util/DyeColor;
+      85: invokevirtual #1077               // Method net/minecraft/component/type/BannerPatternsComponent$Builder.add:(Lnet/minecraft/registry/RegistryEntryLookup;Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/util/DyeColor;)Lnet/minecraft/component/type/BannerPatternsComponent$Builder;
+      88: aload_0
+      89: getstatic     #1092               // Field net/minecraft/block/entity/BannerPatterns.BORDER:Lnet/minecraft/registry/RegistryKey;
+      92: getstatic     #1098               // Field net/minecraft/util/DyeColor.BLACK:Lnet/minecraft/util/DyeColor;
+      95: invokevirtual #1077               // Method net/minecraft/component/type/BannerPatternsComponent$Builder.add:(Lnet/minecraft/registry/RegistryEntryLookup;Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/util/DyeColor;)Lnet/minecraft/component/type/BannerPatternsComponent$Builder;
+      98: invokevirtual #1108               // Method net/minecraft/component/type/BannerPatternsComponent$Builder.build:()Lnet/minecraft/component/type/BannerPatternsComponent;
+     101: astore_2
+     102: aload_1
+     103: getstatic     #1114               // Field net/minecraft/component/DataComponentTypes.BANNER_PATTERNS:Lnet/minecraft/component/ComponentType;
+     106: aload_2
+     107: invokevirtual #1117               // Method net/minecraft/item/ItemStack.set:(Lnet/minecraft/component/ComponentType;Ljava/lang/Object;)Ljava/lang/Object;
+     110: pop
+     111: aload_1
+     112: getstatic     #1120               // Field net/minecraft/component/DataComponentTypes.TOOLTIP_DISPLAY:Lnet/minecraft/component/ComponentType;
+     115: getstatic     #1126               // Field net/minecraft/component/type/TooltipDisplayComponent.DEFAULT:Lnet/minecraft/component/type/TooltipDisplayComponent;
+     118: getstatic     #1114               // Field net/minecraft/component/DataComponentTypes.BANNER_PATTERNS:Lnet/minecraft/component/ComponentType;
+     121: iconst_1
+     122: invokevirtual #1130               // Method net/minecraft/component/type/TooltipDisplayComponent.with:(Lnet/minecraft/component/ComponentType;Z)Lnet/minecraft/component/type/TooltipDisplayComponent;
+     125: invokevirtual #1117               // Method net/minecraft/item/ItemStack.set:(Lnet/minecraft/component/ComponentType;Ljava/lang/Object;)Ljava/lang/Object;
+     128: pop
+     129: aload_1
+     130: getstatic     #1133               // Field net/minecraft/component/DataComponentTypes.ITEM_NAME:Lnet/minecraft/component/ComponentType;
+     133: getstatic     #1135               // Field OMINOUS_BANNER_TRANSLATION_KEY:Lnet/minecraft/text/Text;
+     136: invokevirtual #1117               // Method net/minecraft/item/ItemStack.set:(Lnet/minecraft/component/ComponentType;Ljava/lang/Object;)Ljava/lang/Object;
+     139: pop
+     140: aload_1
+     141: getstatic     #1138               // Field net/minecraft/component/DataComponentTypes.RARITY:Lnet/minecraft/component/ComponentType;
+     144: getstatic     #1144               // Field net/minecraft/util/Rarity.UNCOMMON:Lnet/minecraft/util/Rarity;
+     147: invokevirtual #1117               // Method net/minecraft/item/ItemStack.set:(Lnet/minecraft/component/ComponentType;Ljava/lang/Object;)Ljava/lang/Object;
+     150: pop
+     151: aload_1
+     152: areturn
+
+  public net.minecraft.entity.raid.RaiderEntity getCaptain(int);
+    Code:
+       0: aload_0
+       1: getfield      #150                // Field waveToCaptain:Ljava/util/Map;
+       4: iload_1
+       5: invokestatic  #496                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       8: invokeinterface #1035,  2         // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+      13: checkcast     #734                // class net/minecraft/entity/raid/RaiderEntity
+      16: areturn
+
+  private net.minecraft.util.math.BlockPos findRandomRaidersSpawnLocation(net.minecraft.server.world.ServerWorld, int);
+    Code:
+       0: aload_0
+       1: getfield      #197                // Field preRaidTicks:I
+       4: bipush        20
+       6: idiv
+       7: istore_3
+       8: ldc_w         #1154               // float 0.22f
+      11: iload_3
+      12: i2f
+      13: fmul
+      14: ldc_w         #1155               // float 0.24f
+      17: fsub
+      18: fstore        4
+      20: new           #33                 // class net/minecraft/util/math/BlockPos$Mutable
+      23: dup
+      24: invokespecial #1156               // Method net/minecraft/util/math/BlockPos$Mutable."<init>":()V
+      27: astore        8
+      29: aload_1
+      30: getfield      #1157               // Field net/minecraft/server/world/ServerWorld.random:Lnet/minecraft/util/math/random/Random;
+      33: invokeinterface #1160,  1         // InterfaceMethod net/minecraft/util/math/random/Random.nextFloat:()F
+      38: ldc_w         #1161               // float 6.2831855f
+      41: fmul
+      42: fstore        9
+      44: iconst_0
+      45: istore        10
+      47: iload         10
+      49: iload_2
+      50: if_icmpge     331
+      53: fload         9
+      55: ldc_w         #1162               // float 3.1415927f
+      58: iload         10
+      60: i2f
+      61: fmul
+      62: ldc_w         #1163               // float 8.0f
+      65: fdiv
+      66: fadd
+      67: fstore        11
+      69: aload_0
+      70: getfield      #203                // Field center:Lnet/minecraft/util/math/BlockPos;
+      73: invokevirtual #979                // Method net/minecraft/util/math/BlockPos.getX:()I
+      76: fload         11
+      78: invokestatic  #1167               // Method net/minecraft/util/math/MathHelper.cos:(F)F
+      81: ldc_w         #1168               // float 32.0f
+      84: fmul
+      85: fload         4
+      87: fmul
+      88: invokestatic  #1172               // Method net/minecraft/util/math/MathHelper.floor:(F)I
+      91: iadd
+      92: aload_1
+      93: getfield      #1157               // Field net/minecraft/server/world/ServerWorld.random:Lnet/minecraft/util/math/random/Random;
+      96: iconst_3
+      97: invokeinterface #1176,  2         // InterfaceMethod net/minecraft/util/math/random/Random.nextInt:(I)I
+     102: fload         4
+     104: invokestatic  #1172               // Method net/minecraft/util/math/MathHelper.floor:(F)I
+     107: imul
+     108: iadd
+     109: istore        5
+     111: aload_0
+     112: getfield      #203                // Field center:Lnet/minecraft/util/math/BlockPos;
+     115: invokevirtual #986                // Method net/minecraft/util/math/BlockPos.getZ:()I
+     118: fload         11
+     120: invokestatic  #1179               // Method net/minecraft/util/math/MathHelper.sin:(F)F
+     123: ldc_w         #1168               // float 32.0f
+     126: fmul
+     127: fload         4
+     129: fmul
+     130: invokestatic  #1172               // Method net/minecraft/util/math/MathHelper.floor:(F)I
+     133: iadd
+     134: aload_1
+     135: getfield      #1157               // Field net/minecraft/server/world/ServerWorld.random:Lnet/minecraft/util/math/random/Random;
+     138: iconst_3
+     139: invokeinterface #1176,  2         // InterfaceMethod net/minecraft/util/math/random/Random.nextInt:(I)I
+     144: fload         4
+     146: invokestatic  #1172               // Method net/minecraft/util/math/MathHelper.floor:(F)I
+     149: imul
+     150: iadd
+     151: istore        7
+     153: aload_1
+     154: getstatic     #1183               // Field net/minecraft/world/Heightmap$Type.WORLD_SURFACE:Lnet/minecraft/world/Heightmap$Type;
+     157: iload         5
+     159: iload         7
+     161: invokevirtual #1187               // Method net/minecraft/server/world/ServerWorld.getTopY:(Lnet/minecraft/world/Heightmap$Type;II)I
+     164: istore        6
+     166: iload         6
+     168: aload_0
+     169: getfield      #203                // Field center:Lnet/minecraft/util/math/BlockPos;
+     172: invokevirtual #983                // Method net/minecraft/util/math/BlockPos.getY:()I
+     175: isub
+     176: invokestatic  #1190               // Method net/minecraft/util/math/MathHelper.abs:(I)I
+     179: bipush        96
+     181: if_icmple     187
+     184: goto          325
+     187: aload         8
+     189: iload         5
+     191: iload         6
+     193: iload         7
+     195: invokevirtual #1193               // Method net/minecraft/util/math/BlockPos$Mutable.set:(III)Lnet/minecraft/util/math/BlockPos$Mutable;
+     198: pop
+     199: aload_1
+     200: aload         8
+     202: invokevirtual #440                // Method net/minecraft/server/world/ServerWorld.isNearOccupiedPointOfInterest:(Lnet/minecraft/util/math/BlockPos;)Z
+     205: ifeq          217
+     208: iload_3
+     209: bipush        7
+     211: if_icmple     217
+     214: goto          325
+     217: bipush        10
+     219: istore        12
+     221: aload_1
+     222: aload         8
+     224: invokevirtual #1194               // Method net/minecraft/util/math/BlockPos$Mutable.getX:()I
+     227: bipush        10
+     229: isub
+     230: aload         8
+     232: invokevirtual #1195               // Method net/minecraft/util/math/BlockPos$Mutable.getZ:()I
+     235: bipush        10
+     237: isub
+     238: aload         8
+     240: invokevirtual #1194               // Method net/minecraft/util/math/BlockPos$Mutable.getX:()I
+     243: bipush        10
+     245: iadd
+     246: aload         8
+     248: invokevirtual #1195               // Method net/minecraft/util/math/BlockPos$Mutable.getZ:()I
+     251: bipush        10
+     253: iadd
+     254: invokevirtual #1199               // Method net/minecraft/server/world/ServerWorld.isRegionLoaded:(IIII)Z
+     257: ifne          263
+     260: goto          325
+     263: aload_1
+     264: aload         8
+     266: invokevirtual #457                // Method net/minecraft/server/world/ServerWorld.shouldTickEntityAt:(Lnet/minecraft/util/math/BlockPos;)Z
+     269: ifne          275
+     272: goto          325
+     275: getstatic     #1201               // Field RAVAGER_SPAWN_LOCATION:Lnet/minecraft/entity/SpawnLocation;
+     278: aload_1
+     279: aload         8
+     281: getstatic     #927                // Field net/minecraft/entity/EntityType.RAVAGER:Lnet/minecraft/entity/EntityType;
+     284: invokeinterface #1207,  4         // InterfaceMethod net/minecraft/entity/SpawnLocation.isSpawnPositionOk:(Lnet/minecraft/world/WorldView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/EntityType;)Z
+     289: ifne          322
+     292: aload_1
+     293: aload         8
+     295: invokevirtual #1210               // Method net/minecraft/util/math/BlockPos$Mutable.down:()Lnet/minecraft/util/math/BlockPos;
+     298: invokevirtual #1214               // Method net/minecraft/server/world/ServerWorld.getBlockState:(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;
+     301: getstatic     #1220               // Field net/minecraft/block/Blocks.SNOW:Lnet/minecraft/block/Block;
+     304: invokevirtual #1226               // Method net/minecraft/block/BlockState.isOf:(Lnet/minecraft/block/Block;)Z
+     307: ifeq          325
+     310: aload_1
+     311: aload         8
+     313: invokevirtual #1214               // Method net/minecraft/server/world/ServerWorld.getBlockState:(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;
+     316: invokevirtual #1229               // Method net/minecraft/block/BlockState.isAir:()Z
+     319: ifeq          325
+     322: aload         8
+     324: areturn
+     325: iinc          10, 1
+     328: goto          47
+     331: aconst_null
+     332: areturn
+
+  private boolean addToWave(net.minecraft.server.world.ServerWorld, int, net.minecraft.entity.raid.RaiderEntity);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: iload_2
+       3: aload_3
+       4: iconst_1
+       5: invokevirtual #1237               // Method addToWave:(Lnet/minecraft/server/world/ServerWorld;ILnet/minecraft/entity/raid/RaiderEntity;Z)Z
+       8: ireturn
+
+  public boolean addToWave(net.minecraft.server.world.ServerWorld, int, net.minecraft.entity.raid.RaiderEntity, boolean);
+    Code:
+       0: aload_0
+       1: getfield      #152                // Field waveToRaiders:Ljava/util/Map;
+       4: iload_2
+       5: invokestatic  #496                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       8: invokedynamic #1244,  0           // InvokeDynamic #8:apply:()Ljava/util/function/Function;
+      13: invokeinterface #1248,  3         // InterfaceMethod java/util/Map.computeIfAbsent:(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;
+      18: pop
+      19: aload_0
+      20: getfield      #152                // Field waveToRaiders:Ljava/util/Map;
+      23: iload_2
+      24: invokestatic  #496                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      27: invokeinterface #1035,  2         // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+      32: checkcast     #233                // class java/util/Set
+      35: astore        5
+      37: aconst_null
+      38: astore        6
+      40: aload         5
+      42: invokeinterface #347,  1          // InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+      47: astore        7
+      49: aload         7
+      51: invokeinterface #287,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      56: ifeq          96
+      59: aload         7
+      61: invokeinterface #291,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      66: checkcast     #734                // class net/minecraft/entity/raid/RaiderEntity
+      69: astore        8
+      71: aload         8
+      73: invokevirtual #767                // Method net/minecraft/entity/raid/RaiderEntity.getUuid:()Ljava/util/UUID;
+      76: aload_3
+      77: invokevirtual #767                // Method net/minecraft/entity/raid/RaiderEntity.getUuid:()Ljava/util/UUID;
+      80: invokevirtual #1251               // Method java/util/UUID.equals:(Ljava/lang/Object;)Z
+      83: ifeq          93
+      86: aload         8
+      88: astore        6
+      90: goto          96
+      93: goto          49
+      96: aload         6
+      98: ifnull        120
+     101: aload         5
+     103: aload         6
+     105: invokeinterface #1038,  2         // InterfaceMethod java/util/Set.remove:(Ljava/lang/Object;)Z
+     110: pop
+     111: aload         5
+     113: aload_3
+     114: invokeinterface #760,  2          // InterfaceMethod java/util/Set.add:(Ljava/lang/Object;)Z
+     119: pop
+     120: aload         5
+     122: aload_3
+     123: invokeinterface #760,  2          // InterfaceMethod java/util/Set.add:(Ljava/lang/Object;)Z
+     128: pop
+     129: iload         4
+     131: ifeq          147
+     134: aload_0
+     135: dup
+     136: getfield      #231                // Field totalHealth:F
+     139: aload_3
+     140: invokevirtual #1008               // Method net/minecraft/entity/raid/RaiderEntity.getHealth:()F
+     143: fadd
+     144: putfield      #231                // Field totalHealth:F
+     147: aload_0
+     148: invokevirtual #953                // Method updateBar:()V
+     151: aload_0
+     152: aload_1
+     153: invokevirtual #612                // Method markDirty:(Lnet/minecraft/server/world/ServerWorld;)V
+     156: iconst_1
+     157: ireturn
+
+  public void setWaveCaptain(int, net.minecraft.entity.raid.RaiderEntity);
+    Code:
+       0: aload_0
+       1: getfield      #150                // Field waveToCaptain:Ljava/util/Map;
+       4: iload_1
+       5: invokestatic  #496                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       8: aload_2
+       9: invokeinterface #1255,  3         // InterfaceMethod java/util/Map.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      14: pop
+      15: aload_2
+      16: getstatic     #1261               // Field net/minecraft/entity/EquipmentSlot.HEAD:Lnet/minecraft/entity/EquipmentSlot;
+      19: aload_2
+      20: invokevirtual #1265               // Method net/minecraft/entity/raid/RaiderEntity.getRegistryManager:()Lnet/minecraft/registry/DynamicRegistryManager;
+      23: getstatic     #1270               // Field net/minecraft/registry/RegistryKeys.BANNER_PATTERN:Lnet/minecraft/registry/RegistryKey;
+      26: invokeinterface #1276,  2         // InterfaceMethod net/minecraft/registry/DynamicRegistryManager.getOrThrow:(Lnet/minecraft/registry/RegistryKey;)Lnet/minecraft/registry/Registry;
+      31: invokestatic  #1278               // Method createOminousBanner:(Lnet/minecraft/registry/RegistryEntryLookup;)Lnet/minecraft/item/ItemStack;
+      34: invokevirtual #1282               // Method net/minecraft/entity/raid/RaiderEntity.equipStack:(Lnet/minecraft/entity/EquipmentSlot;Lnet/minecraft/item/ItemStack;)V
+      37: aload_2
+      38: getstatic     #1261               // Field net/minecraft/entity/EquipmentSlot.HEAD:Lnet/minecraft/entity/EquipmentSlot;
+      41: fconst_2
+      42: invokevirtual #1286               // Method net/minecraft/entity/raid/RaiderEntity.setEquipmentDropChance:(Lnet/minecraft/entity/EquipmentSlot;F)V
+      45: return
+
+  public void removeLeader(int);
+    Code:
+       0: aload_0
+       1: getfield      #150                // Field waveToCaptain:Ljava/util/Map;
+       4: iload_1
+       5: invokestatic  #496                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       8: invokeinterface #1288,  2         // InterfaceMethod java/util/Map.remove:(Ljava/lang/Object;)Ljava/lang/Object;
+      13: pop
+      14: return
+
+  public net.minecraft.util.math.BlockPos getCenter();
+    Code:
+       0: aload_0
+       1: getfield      #203                // Field center:Lnet/minecraft/util/math/BlockPos;
+       4: areturn
+
+  private void setCenter(net.minecraft.util.math.BlockPos);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #203                // Field center:Lnet/minecraft/util/math/BlockPos;
+       5: return
+
+  private int getCount(net.minecraft.village.raid.Raid$Member, int, boolean);
+    Code:
+       0: iload_3
+       1: ifeq          16
+       4: aload_1
+       5: getfield      #1294               // Field net/minecraft/village/raid/Raid$Member.countInWave:[I
+       8: aload_0
+       9: getfield      #209                // Field waveCount:I
+      12: iaload
+      13: goto          22
+      16: aload_1
+      17: getfield      #1294               // Field net/minecraft/village/raid/Raid$Member.countInWave:[I
+      20: iload_2
+      21: iaload
+      22: ireturn
+
+  private int getBonusCount(net.minecraft.village.raid.Raid$Member, net.minecraft.util.math.random.Random, int, net.minecraft.world.LocalDifficulty, boolean);
+    Code:
+       0: aload         4
+       2: invokevirtual #1297               // Method net/minecraft/world/LocalDifficulty.getGlobalDifficulty:()Lnet/minecraft/world/Difficulty;
+       5: astore        6
+       7: aload         6
+       9: getstatic     #1300               // Field net/minecraft/world/Difficulty.EASY:Lnet/minecraft/world/Difficulty;
+      12: if_acmpne     19
+      15: iconst_1
+      16: goto          20
+      19: iconst_0
+      20: istore        7
+      22: aload         6
+      24: getstatic     #930                // Field net/minecraft/world/Difficulty.NORMAL:Lnet/minecraft/world/Difficulty;
+      27: if_acmpne     34
+      30: iconst_1
+      31: goto          35
+      34: iconst_0
+      35: istore        8
+      37: aload_1
+      38: invokevirtual #1303               // Method net/minecraft/village/raid/Raid$Member.ordinal:()I
+      41: tableswitch   { // 0 to 4
+                     0: 99
+                     1: 153
+                     2: 99
+                     3: 76
+                     4: 133
+               default: 153
+          }
+      76: iload         7
+      78: ifne          97
+      81: iload_3
+      82: iconst_2
+      83: if_icmple     97
+      86: iload_3
+      87: iconst_4
+      88: if_icmpeq     97
+      91: iconst_1
+      92: istore        9
+      94: goto          155
+      97: iconst_0
+      98: ireturn
+      99: iload         7
+     101: ifeq          116
+     104: aload_2
+     105: iconst_2
+     106: invokeinterface #1176,  2         // InterfaceMethod net/minecraft/util/math/random/Random.nextInt:(I)I
+     111: istore        9
+     113: goto          155
+     116: iload         8
+     118: ifeq          127
+     121: iconst_1
+     122: istore        9
+     124: goto          155
+     127: iconst_2
+     128: istore        9
+     130: goto          155
+     133: iload         7
+     135: ifne          147
+     138: iload         5
+     140: ifeq          147
+     143: iconst_1
+     144: goto          148
+     147: iconst_0
+     148: istore        9
+     150: goto          155
+     153: iconst_0
+     154: ireturn
+     155: iload         9
+     157: ifle          173
+     160: aload_2
+     161: iload         9
+     163: iconst_1
+     164: iadd
+     165: invokeinterface #1176,  2         // InterfaceMethod net/minecraft/util/math/random/Random.nextInt:(I)I
+     170: goto          174
+     173: iconst_0
+     174: ireturn
+
+  public boolean isActive();
+    Code:
+       0: aload_0
+       1: getfield      #195                // Field active:Z
+       4: ireturn
+
+  public int getMaxWaves(net.minecraft.world.Difficulty);
+    Code:
+       0: getstatic     #1307               // Field net/minecraft/village/raid/Raid$1.field_16626:[I
+       3: aload_1
+       4: invokevirtual #1308               // Method net/minecraft/world/Difficulty.ordinal:()I
+       7: iaload
+       8: tableswitch   { // 1 to 4
+                     1: 50
+                     2: 54
+                     3: 58
+                     4: 62
+               default: 40
+          }
+      40: new           #1310               // class java/lang/MatchException
+      43: dup
+      44: aconst_null
+      45: aconst_null
+      46: invokespecial #1313               // Method java/lang/MatchException."<init>":(Ljava/lang/String;Ljava/lang/Throwable;)V
+      49: athrow
+      50: iconst_0
+      51: goto          64
+      54: iconst_3
+      55: goto          64
+      58: iconst_5
+      59: goto          64
+      62: bipush        7
+      64: ireturn
+
+  public float getEnchantmentChance();
+    Code:
+       0: aload_0
+       1: invokevirtual #1316               // Method getBadOmenLevel:()I
+       4: istore_1
+       5: iload_1
+       6: iconst_2
+       7: if_icmpne     14
+      10: ldc_w         #1317               // float 0.1f
+      13: freturn
+      14: iload_1
+      15: iconst_3
+      16: if_icmpne     23
+      19: ldc_w         #1318               // float 0.25f
+      22: freturn
+      23: iload_1
+      24: iconst_4
+      25: if_icmpne     32
+      28: ldc_w         #1319               // float 0.5f
+      31: freturn
+      32: iload_1
+      33: iconst_5
+      34: if_icmpne     41
+      37: ldc_w         #1320               // float 0.75f
+      40: freturn
+      41: fconst_0
+      42: freturn
+
+  public void addHero(net.minecraft.entity.Entity);
+    Code:
+       0: aload_0
+       1: getfield      #160                // Field heroesOfTheVillage:Ljava/util/Set;
+       4: aload_1
+       5: invokevirtual #1322               // Method net/minecraft/entity/Entity.getUuid:()Ljava/util/UUID;
+       8: invokeinterface #760,  2          // InterfaceMethod java/util/Set.add:(Ljava/lang/Object;)Z
+      13: pop
+      14: return
+
+  private static java.util.Set method_16508(java.lang.Integer);
+    Code:
+       0: invokestatic  #158                // Method com/google/common/collect/Sets.newHashSet:()Ljava/util/HashSet;
+       3: areturn
+
+  private double method_20510(net.minecraft.util.math.BlockPos);
+    Code:
+       0: aload_1
+       1: aload_0
+       2: getfield      #203                // Field center:Lnet/minecraft/util/math/BlockPos;
+       5: invokevirtual #755                // Method net/minecraft/util/math/BlockPos.getSquaredDistance:(Lnet/minecraft/util/math/Vec3i;)D
+       8: dreturn
+
+  private net.minecraft.util.math.BlockPos method_67369(net.minecraft.server.world.ServerWorld);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: bipush        20
+       4: invokevirtual #722                // Method findRandomRaidersSpawnLocation:(Lnet/minecraft/server/world/ServerWorld;I)Lnet/minecraft/util/math/BlockPos;
+       7: areturn
+
+  private boolean method_67363(net.minecraft.server.network.ServerPlayerEntity);
+    Code:
+       0: aload_1
+       1: invokevirtual #1326               // Method net/minecraft/server/network/ServerPlayerEntity.getBlockPos:()Lnet/minecraft/util/math/BlockPos;
+       4: astore_2
+       5: aload_1
+       6: invokevirtual #1329               // Method net/minecraft/server/network/ServerPlayerEntity.isAlive:()Z
+       9: ifeq          28
+      12: aload_1
+      13: invokevirtual #1332               // Method net/minecraft/server/network/ServerPlayerEntity.getEntityWorld:()Lnet/minecraft/server/world/ServerWorld;
+      16: aload_2
+      17: invokevirtual #1336               // Method net/minecraft/server/world/ServerWorld.getRaidAt:(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/village/raid/Raid;
+      20: aload_0
+      21: if_acmpne     28
+      24: iconst_1
+      25: goto          29
+      28: iconst_0
+      29: ireturn
+
+  private static com.mojang.datafixers.kinds.App method_67361(com.mojang.serialization.codecs.RecordCodecBuilder$Instance);
+    Code:
+       0: aload_0
+       1: getstatic     #1345               // Field com/mojang/serialization/Codec.BOOL:Lcom/mojang/serialization/codecs/PrimitiveCodec;
+       4: ldc_w         #1346               // String started
+       7: invokeinterface #1352,  2         // InterfaceMethod com/mojang/serialization/codecs/PrimitiveCodec.fieldOf:(Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
+      12: invokedynamic #1359,  0           // InvokeDynamic #9:apply:()Ljava/util/function/Function;
+      17: invokevirtual #1365               // Method com/mojang/serialization/MapCodec.forGetter:(Ljava/util/function/Function;)Lcom/mojang/serialization/codecs/RecordCodecBuilder;
+      20: getstatic     #1345               // Field com/mojang/serialization/Codec.BOOL:Lcom/mojang/serialization/codecs/PrimitiveCodec;
+      23: ldc_w         #1366               // String active
+      26: invokeinterface #1352,  2         // InterfaceMethod com/mojang/serialization/codecs/PrimitiveCodec.fieldOf:(Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
+      31: invokedynamic #1371,  0           // InvokeDynamic #10:apply:()Ljava/util/function/Function;
+      36: invokevirtual #1365               // Method com/mojang/serialization/MapCodec.forGetter:(Ljava/util/function/Function;)Lcom/mojang/serialization/codecs/RecordCodecBuilder;
+      39: getstatic     #1374               // Field com/mojang/serialization/Codec.LONG:Lcom/mojang/serialization/codecs/PrimitiveCodec;
+      42: ldc_w         #1376               // String ticks_active
+      45: invokeinterface #1352,  2         // InterfaceMethod com/mojang/serialization/codecs/PrimitiveCodec.fieldOf:(Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
+      50: invokedynamic #1383,  0           // InvokeDynamic #11:apply:()Ljava/util/function/Function;
+      55: invokevirtual #1365               // Method com/mojang/serialization/MapCodec.forGetter:(Ljava/util/function/Function;)Lcom/mojang/serialization/codecs/RecordCodecBuilder;
+      58: getstatic     #1386               // Field com/mojang/serialization/Codec.INT:Lcom/mojang/serialization/codecs/PrimitiveCodec;
+      61: ldc_w         #1388               // String raid_omen_level
+      64: invokeinterface #1352,  2         // InterfaceMethod com/mojang/serialization/codecs/PrimitiveCodec.fieldOf:(Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
+      69: invokedynamic #1395,  0           // InvokeDynamic #12:apply:()Ljava/util/function/Function;
+      74: invokevirtual #1365               // Method com/mojang/serialization/MapCodec.forGetter:(Ljava/util/function/Function;)Lcom/mojang/serialization/codecs/RecordCodecBuilder;
+      77: getstatic     #1386               // Field com/mojang/serialization/Codec.INT:Lcom/mojang/serialization/codecs/PrimitiveCodec;
+      80: ldc_w         #1397               // String groups_spawned
+      83: invokeinterface #1352,  2         // InterfaceMethod com/mojang/serialization/codecs/PrimitiveCodec.fieldOf:(Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
+      88: invokedynamic #1402,  0           // InvokeDynamic #13:apply:()Ljava/util/function/Function;
+      93: invokevirtual #1365               // Method com/mojang/serialization/MapCodec.forGetter:(Ljava/util/function/Function;)Lcom/mojang/serialization/codecs/RecordCodecBuilder;
+      96: getstatic     #1386               // Field com/mojang/serialization/Codec.INT:Lcom/mojang/serialization/codecs/PrimitiveCodec;
+      99: ldc_w         #1404               // String cooldown_ticks
+     102: invokeinterface #1352,  2         // InterfaceMethod com/mojang/serialization/codecs/PrimitiveCodec.fieldOf:(Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
+     107: invokedynamic #1409,  0           // InvokeDynamic #14:apply:()Ljava/util/function/Function;
+     112: invokevirtual #1365               // Method com/mojang/serialization/MapCodec.forGetter:(Ljava/util/function/Function;)Lcom/mojang/serialization/codecs/RecordCodecBuilder;
+     115: getstatic     #1386               // Field com/mojang/serialization/Codec.INT:Lcom/mojang/serialization/codecs/PrimitiveCodec;
+     118: ldc_w         #1411               // String post_raid_ticks
+     121: invokeinterface #1352,  2         // InterfaceMethod com/mojang/serialization/codecs/PrimitiveCodec.fieldOf:(Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
+     126: invokedynamic #1416,  0           // InvokeDynamic #15:apply:()Ljava/util/function/Function;
+     131: invokevirtual #1365               // Method com/mojang/serialization/MapCodec.forGetter:(Ljava/util/function/Function;)Lcom/mojang/serialization/codecs/RecordCodecBuilder;
+     134: getstatic     #1419               // Field com/mojang/serialization/Codec.FLOAT:Lcom/mojang/serialization/codecs/PrimitiveCodec;
+     137: ldc_w         #1421               // String total_health
+     140: invokeinterface #1352,  2         // InterfaceMethod com/mojang/serialization/codecs/PrimitiveCodec.fieldOf:(Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
+     145: invokedynamic #1428,  0           // InvokeDynamic #16:apply:()Ljava/util/function/Function;
+     150: invokevirtual #1365               // Method com/mojang/serialization/MapCodec.forGetter:(Ljava/util/function/Function;)Lcom/mojang/serialization/codecs/RecordCodecBuilder;
+     153: getstatic     #1386               // Field com/mojang/serialization/Codec.INT:Lcom/mojang/serialization/codecs/PrimitiveCodec;
+     156: ldc_w         #1430               // String group_count
+     159: invokeinterface #1352,  2         // InterfaceMethod com/mojang/serialization/codecs/PrimitiveCodec.fieldOf:(Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
+     164: invokedynamic #1435,  0           // InvokeDynamic #17:apply:()Ljava/util/function/Function;
+     169: invokevirtual #1365               // Method com/mojang/serialization/MapCodec.forGetter:(Ljava/util/function/Function;)Lcom/mojang/serialization/codecs/RecordCodecBuilder;
+     172: getstatic     #1438               // Field net/minecraft/village/raid/Raid$Status.CODEC:Lcom/mojang/serialization/Codec;
+     175: ldc_w         #1439               // String status
+     178: invokeinterface #1440,  2         // InterfaceMethod com/mojang/serialization/Codec.fieldOf:(Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
+     183: invokedynamic #1447,  0           // InvokeDynamic #18:apply:()Ljava/util/function/Function;
+     188: invokevirtual #1365               // Method com/mojang/serialization/MapCodec.forGetter:(Ljava/util/function/Function;)Lcom/mojang/serialization/codecs/RecordCodecBuilder;
+     191: getstatic     #1448               // Field net/minecraft/util/math/BlockPos.CODEC:Lcom/mojang/serialization/Codec;
+     194: ldc_w         #1449               // String center
+     197: invokeinterface #1440,  2         // InterfaceMethod com/mojang/serialization/Codec.fieldOf:(Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
+     202: invokedynamic #1456,  0           // InvokeDynamic #19:apply:()Ljava/util/function/Function;
+     207: invokevirtual #1365               // Method com/mojang/serialization/MapCodec.forGetter:(Ljava/util/function/Function;)Lcom/mojang/serialization/codecs/RecordCodecBuilder;
+     210: getstatic     #1461               // Field net/minecraft/util/Uuids.SET_CODEC:Lcom/mojang/serialization/Codec;
+     213: ldc_w         #1463               // String heroes_of_the_village
+     216: invokeinterface #1440,  2         // InterfaceMethod com/mojang/serialization/Codec.fieldOf:(Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
+     221: invokedynamic #1470,  0           // InvokeDynamic #20:apply:()Ljava/util/function/Function;
+     226: invokevirtual #1365               // Method com/mojang/serialization/MapCodec.forGetter:(Ljava/util/function/Function;)Lcom/mojang/serialization/codecs/RecordCodecBuilder;
+     229: invokevirtual #1474               // Method com/mojang/serialization/codecs/RecordCodecBuilder$Instance.group:(Lcom/mojang/datafixers/kinds/App;Lcom/mojang/datafixers/kinds/App;Lcom/mojang/datafixers/kinds/App;Lcom/mojang/datafixers/kinds/App;Lcom/mojang/datafixers/kinds/App;Lcom/mojang/datafixers/kinds/App;Lcom/mojang/datafixers/kinds/App;Lcom/mojang/datafixers/kinds/App;Lcom/mojang/datafixers/kinds/App;Lcom/mojang/datafixers/kinds/App;Lcom/mojang/datafixers/kinds/App;Lcom/mojang/datafixers/kinds/App;)Lcom/mojang/datafixers/Products$P12;
+     232: aload_0
+     233: invokedynamic #1484,  0           // InvokeDynamic #21:apply:()Lcom/mojang/datafixers/util/Function12;
+     238: invokevirtual #1487               // Method com/mojang/datafixers/Products$P12.apply:(Lcom/mojang/datafixers/kinds/Applicative;Lcom/mojang/datafixers/util/Function12;)Lcom/mojang/datafixers/kinds/App;
+     241: areturn
+
+  private static java.util.Set method_67362(net.minecraft.village.raid.Raid);
+    Code:
+       0: aload_0
+       1: getfield      #160                // Field heroesOfTheVillage:Ljava/util/Set;
+       4: areturn
+
+  private static net.minecraft.util.math.BlockPos method_67364(net.minecraft.village.raid.Raid);
+    Code:
+       0: aload_0
+       1: getfield      #203                // Field center:Lnet/minecraft/util/math/BlockPos;
+       4: areturn
+
+  private static net.minecraft.village.raid.Raid$Status method_67365(net.minecraft.village.raid.Raid);
+    Code:
+       0: aload_0
+       1: getfield      #214                // Field status:Lnet/minecraft/village/raid/Raid$Status;
+       4: areturn
+
+  private static java.lang.Integer method_67366(net.minecraft.village.raid.Raid);
+    Code:
+       0: aload_0
+       1: getfield      #209                // Field waveCount:I
+       4: invokestatic  #496                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       7: areturn
+
+  private static java.lang.Float method_67367(net.minecraft.village.raid.Raid);
+    Code:
+       0: aload_0
+       1: getfield      #231                // Field totalHealth:F
+       4: invokestatic  #1494               // Method java/lang/Float.valueOf:(F)Ljava/lang/Float;
+       7: areturn
+
+  private static java.lang.Integer method_67368(net.minecraft.village.raid.Raid);
+    Code:
+       0: aload_0
+       1: getfield      #229                // Field postRaidTicks:I
+       4: invokestatic  #496                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       7: areturn
+
+  private static java.lang.Integer method_67370(net.minecraft.village.raid.Raid);
+    Code:
+       0: aload_0
+       1: getfield      #197                // Field preRaidTicks:I
+       4: invokestatic  #496                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       7: areturn
+
+  private static java.lang.Integer method_67371(net.minecraft.village.raid.Raid);
+    Code:
+       0: aload_0
+       1: getfield      #227                // Field wavesSpawned:I
+       4: invokestatic  #496                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       7: areturn
+
+  private static java.lang.Integer method_67372(net.minecraft.village.raid.Raid);
+    Code:
+       0: aload_0
+       1: getfield      #225                // Field raidOmenLevel:I
+       4: invokestatic  #496                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       7: areturn
+
+  private static java.lang.Long method_67373(net.minecraft.village.raid.Raid);
+    Code:
+       0: aload_0
+       1: getfield      #223                // Field ticksActive:J
+       4: invokestatic  #1499               // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
+       7: areturn
+
+  private static java.lang.Boolean method_67374(net.minecraft.village.raid.Raid);
+    Code:
+       0: aload_0
+       1: getfield      #195                // Field active:Z
+       4: invokestatic  #1504               // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+       7: areturn
+
+  private static java.lang.Boolean method_67375(net.minecraft.village.raid.Raid);
+    Code:
+       0: aload_0
+       1: getfield      #221                // Field started:Z
+       4: invokestatic  #1504               // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+       7: areturn
+
+  static {};
+    Code:
+       0: getstatic     #927                // Field net/minecraft/entity/EntityType.RAVAGER:Lnet/minecraft/entity/EntityType;
+       3: invokestatic  #1511               // Method net/minecraft/entity/SpawnRestriction.getLocation:(Lnet/minecraft/entity/EntityType;)Lnet/minecraft/entity/SpawnLocation;
+       6: putstatic     #1201               // Field RAVAGER_SPAWN_LOCATION:Lnet/minecraft/entity/SpawnLocation;
+       9: invokedynamic #1516,  0           // InvokeDynamic #22:apply:()Ljava/util/function/Function;
+      14: invokestatic  #1520               // Method com/mojang/serialization/codecs/RecordCodecBuilder.mapCodec:(Ljava/util/function/Function;)Lcom/mojang/serialization/MapCodec;
+      17: putstatic     #1522               // Field CODEC:Lcom/mojang/serialization/MapCodec;
+      20: ldc_w         #1524               // String block.minecraft.ominous_banner
+      23: invokestatic  #1526               // InterfaceMethod net/minecraft/text/Text.translatable:(Ljava/lang/String;)Lnet/minecraft/text/MutableText;
+      26: putstatic     #1135               // Field OMINOUS_BANNER_TRANSLATION_KEY:Lnet/minecraft/text/Text;
+      29: ldc_w         #1528               // String event.minecraft.raid
+      32: invokestatic  #1526               // InterfaceMethod net/minecraft/text/Text.translatable:(Ljava/lang/String;)Lnet/minecraft/text/MutableText;
+      35: putstatic     #164                // Field EVENT_TEXT:Lnet/minecraft/text/Text;
+      38: ldc_w         #1530               // String event.minecraft.raid.victory.full
+      41: invokestatic  #1526               // InterfaceMethod net/minecraft/text/Text.translatable:(Ljava/lang/String;)Lnet/minecraft/text/MutableText;
+      44: putstatic     #618                // Field VICTORY_TITLE:Lnet/minecraft/text/Text;
+      47: ldc_w         #1532               // String event.minecraft.raid.defeat.full
+      50: invokestatic  #1526               // InterfaceMethod net/minecraft/text/Text.translatable:(Ljava/lang/String;)Lnet/minecraft/text/MutableText;
+      53: putstatic     #620                // Field DEFEAT_TITLE:Lnet/minecraft/text/Text;
+      56: return
+}
