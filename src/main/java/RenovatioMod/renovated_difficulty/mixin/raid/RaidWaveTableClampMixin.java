@@ -1,4 +1,4 @@
-package RenovatioMod.renovated_difficulty.mixin;
+package RenovatioMod.renovated_difficulty.mixin.raid;
 
 import net.minecraft.village.raid.Raid;
 import org.spongepowered.asm.mixin.Final;

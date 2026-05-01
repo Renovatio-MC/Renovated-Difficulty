@@ -1,4 +1,4 @@
-package RenovatioMod.renovated_difficulty.mixin;
+package RenovatioMod.renovated_difficulty.mixin.raid;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;

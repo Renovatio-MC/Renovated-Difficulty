@@ -15,6 +15,7 @@ public class LivingEntityDamageMixin {
     private static final int TRANQUIL_ID = 4;
     private static final int BRUTAL_ID = 5;
     private static final int NIGHTMARE_ID = 6;
+    private static final int CATACLYSM_ID = 7;
 
     @Inject(method = "modifyAppliedDamage", at = @At("RETURN"), cancellable = true)
     private void renovatedDifficulty$applyCustomMobScaling(
@@ -34,6 +35,7 @@ public class LivingEntityDamageMixin {
             case TRANQUIL_ID -> Math.min(d, (d / 3.0f) + (2.0f / 3.0f));
             case BRUTAL_ID -> 1.75f * d;
             case NIGHTMARE_ID -> 2.25f * d;
+            case CATACLYSM_ID -> 2.5f * d;
             default -> d;
         };
 

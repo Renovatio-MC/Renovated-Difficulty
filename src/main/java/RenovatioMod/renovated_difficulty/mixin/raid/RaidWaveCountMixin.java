@@ -1,4 +1,4 @@
-package RenovatioMod.renovated_difficulty.mixin;
+package RenovatioMod.renovated_difficulty.mixin.raid;
 
 import RenovatioMod.renovated_difficulty.api.CustomDifficultyUtil;
 import net.minecraft.village.raid.Raid;

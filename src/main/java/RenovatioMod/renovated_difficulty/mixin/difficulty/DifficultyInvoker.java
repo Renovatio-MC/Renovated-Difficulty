@@ -1,4 +1,4 @@
-package RenovatioMod.renovated_difficulty.mixin;
+package RenovatioMod.renovated_difficulty.mixin.difficulty;
 
 import net.minecraft.world.Difficulty;
 import org.spongepowered.asm.mixin.Mixin;

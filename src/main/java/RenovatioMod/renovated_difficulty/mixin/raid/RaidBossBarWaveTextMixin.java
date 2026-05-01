@@ -1,4 +1,4 @@
-package RenovatioMod.renovated_difficulty.mixin;
+package RenovatioMod.renovated_difficulty.mixin.raid;
 
 import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.text.Text;

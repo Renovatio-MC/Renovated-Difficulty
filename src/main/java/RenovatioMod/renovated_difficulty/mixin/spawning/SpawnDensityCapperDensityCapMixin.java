@@ -1,4 +1,4 @@
-package RenovatioMod.renovated_difficulty.mixin;
+package RenovatioMod.renovated_difficulty.mixin.spawning;
 
 import RenovatioMod.renovated_difficulty.api.CustomDifficultyUtil;
 import RenovatioMod.renovated_difficulty.api.SpawnCapContext;
@@ -8,13 +8,13 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin(targets = "net.minecraft.world.SpawnHelper$Info")
-public abstract class SpawnHelperInfoCapMixin {
+@Mixin(targets = "net.minecraft.world.SpawnDensityCapper$DensityCap")
+public abstract class SpawnDensityCapperDensityCapMixin {
     @Redirect(
-            method = "isBelowCap",
+            method = "canSpawn",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/SpawnGroup;getCapacity()I")
     )
-    private int renovatedDifficulty$overrideMonsterCapInNaturalSpawn(SpawnGroup group) {
+    private int renovatedDifficulty$overrideMonsterDensityCap(SpawnGroup group) {
         int vanillaCap = group.getCapacity();
         if (group != SpawnGroup.MONSTER) {
             return vanillaCap;

@@ -1,4 +1,4 @@
-package RenovatioMod.renovated_difficulty.mixin;
+package RenovatioMod.renovated_difficulty.mixin.spawning;
 
 import RenovatioMod.renovated_difficulty.api.SpawnCapContext;
 import net.minecraft.server.world.ServerWorld;

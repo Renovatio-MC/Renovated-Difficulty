@@ -1,4 +1,4 @@
-package RenovatioMod.renovated_difficulty.mixin;
+package RenovatioMod.renovated_difficulty.mixin.difficulty;
 
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.world.Difficulty;

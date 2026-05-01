@@ -296,8 +296,19 @@ public final class CustomDifficultyUtil {
     }
 
     public static float getZombieLeaderScale(float maxHealth) {
-        // Linear scale: 20 HP -> 1.0x, 100 HP (50 hearts) -> 1.5x.
         float normalized = Math.max(0.0F, Math.min(1.0F, (maxHealth - 20.0F) / 80.0F));
         return 1.0F + normalized * 0.5F;
     }
+
+    public static float getZombieLeaderAttackMultiplier(float maxHealth) {
+        float normalized = Math.max(0.0F, Math.min(1.0F, (maxHealth - 20.0F) / 80.0F));
+        return 1.0F + normalized * 0.5F;
+    }
+
+    public static float getZombieLeaderSpeedMultiplier(float maxHealth) {
+        float normalized = Math.max(0.0F, Math.min(1.0F, (maxHealth - 20.0F) / 80.0F));
+        return 1.0F - normalized * (1.0F / 3.0F);
+    }
 }
+
+
